@@ -1,4 +1,6 @@
 #include <sourcemod>
+#include <sdktools>
+
 #include <vphysics>
 
 public OnPluginStart() {
