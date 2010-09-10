@@ -285,6 +285,241 @@ static cell_t RemoveHinged(IPluginContext *pContext, const cell_t *params)
 
 ///////////////////////////////////////////
 
+static cell_t LocalToWorld(IPluginContext *pContext, const cell_t *params)
+{
+	IPhysicsEnvironment *pPhysicsEnvironment = iphysics->GetActiveEnvironmentByIndex(0);
+
+	if (!pPhysicsEnvironment)
+	{
+		return pContext->ThrowNativeError("IPhysicsEnvironment null.");
+	}
+
+	IPhysicsObject *pObject = GetPhysicsObject(params[1]);
+
+	if (!pObject)
+	{
+		return pContext->ThrowNativeError("IPhysicsObject for entity %d null.", params[1]);
+	}
+
+	cell_t *addr;
+	pContext->LocalToPhysAddr(params[2], &addr);
+
+	Vector inputVec = Vector(sp_ctof(addr[0]), sp_ctof(addr[1]), sp_ctof(addr[2]));
+	Vector outputVec;
+
+	pObject->LocalToWorld(&inputVec, outputVec);
+
+	cell_t *addr2;
+	pContext->LocalToPhysAddr(params[3], &addr2);
+	addr2[0] = sp_ftoc(outputVec.x);
+	addr2[1] = sp_ftoc(outputVec.y);
+	addr2[2] = sp_ftoc(outputVec.z);
+
+	return 1;
+}
+
+static cell_t WorldToLocal(IPluginContext *pContext, const cell_t *params)
+{
+	IPhysicsEnvironment *pPhysicsEnvironment = iphysics->GetActiveEnvironmentByIndex(0);
+
+	if (!pPhysicsEnvironment)
+	{
+		return pContext->ThrowNativeError("IPhysicsEnvironment null.");
+	}
+
+	IPhysicsObject *pObject = GetPhysicsObject(params[1]);
+
+	if (!pObject)
+	{
+		return pContext->ThrowNativeError("IPhysicsObject for entity %d null.", params[1]);
+	}
+
+	cell_t *addr;
+	pContext->LocalToPhysAddr(params[2], &addr);
+
+	Vector inputVec = Vector(sp_ctof(addr[0]), sp_ctof(addr[1]), sp_ctof(addr[2]));
+	Vector outputVec;
+
+	pObject->WorldToLocal(&inputVec, outputVec);
+
+	cell_t *addr2;
+	pContext->LocalToPhysAddr(params[3], &addr2);
+	addr2[0] = sp_ftoc(outputVec.x);
+	addr2[1] = sp_ftoc(outputVec.y);
+	addr2[2] = sp_ftoc(outputVec.z);
+
+	return 1;
+}
+
+static cell_t CalculateForceOffset(IPluginContext *pContext, const cell_t *params)
+{
+	IPhysicsEnvironment *pPhysicsEnvironment = iphysics->GetActiveEnvironmentByIndex(0);
+
+	if (!pPhysicsEnvironment)
+	{
+		return pContext->ThrowNativeError("IPhysicsEnvironment null.");
+	}
+
+	IPhysicsObject *pObject = GetPhysicsObject(params[1]);
+
+	if (!pObject)
+	{
+		return pContext->ThrowNativeError("IPhysicsObject for entity %d null.", params[1]);
+	}
+
+	cell_t *addr;
+	pContext->LocalToPhysAddr(params[2], &addr);
+	Vector forceVector = Vector(sp_ctof(addr[0]), sp_ctof(addr[1]), sp_ctof(addr[2]));
+
+	cell_t *addr2;
+	pContext->LocalToPhysAddr(params[3], &addr2);
+	Vector worldPosition = Vector(sp_ctof(addr2[0]), sp_ctof(addr2[1]), sp_ctof(addr2[2]));
+
+	Vector centerForce;
+	AngularImpulse centerTorque;
+
+	pObject->CalculateForceOffset(forceVector, worldPosition, &centerForce, &centerTorque);
+
+	cell_t *addr3;
+	pContext->LocalToPhysAddr(params[3], &addr3);
+	addr3[0] = sp_ftoc(centerForce.x);
+	addr3[1] = sp_ftoc(centerForce.y);
+	addr3[2] = sp_ftoc(centerForce.z);
+
+	cell_t *addr4;
+	pContext->LocalToPhysAddr(params[3], &addr4);
+	addr4[0] = sp_ftoc(centerTorque.x);
+	addr4[1] = sp_ftoc(centerTorque.y);
+	addr4[2] = sp_ftoc(centerTorque.z);
+
+	return 1;
+}
+
+static cell_t CalculateVelocityOffset(IPluginContext *pContext, const cell_t *params)
+{
+	IPhysicsEnvironment *pPhysicsEnvironment = iphysics->GetActiveEnvironmentByIndex(0);
+
+	if (!pPhysicsEnvironment)
+	{
+		return pContext->ThrowNativeError("IPhysicsEnvironment null.");
+	}
+
+	IPhysicsObject *pObject = GetPhysicsObject(params[1]);
+
+	if (!pObject)
+	{
+		return pContext->ThrowNativeError("IPhysicsObject for entity %d null.", params[1]);
+	}
+
+	cell_t *addr;
+	pContext->LocalToPhysAddr(params[2], &addr);
+	Vector forceVector = Vector(sp_ctof(addr[0]), sp_ctof(addr[1]), sp_ctof(addr[2]));
+
+	cell_t *addr2;
+	pContext->LocalToPhysAddr(params[3], &addr2);
+	Vector worldPosition = Vector(sp_ctof(addr2[0]), sp_ctof(addr2[1]), sp_ctof(addr2[2]));
+
+	Vector centerVelocity;
+	AngularImpulse centerAngularVelocity;
+
+	pObject->CalculateVelocityOffset(forceVector, worldPosition, &centerVelocity, &centerAngularVelocity);
+
+	cell_t *addr3;
+	pContext->LocalToPhysAddr(params[3], &addr3);
+	addr3[0] = sp_ftoc(centerVelocity.x);
+	addr3[1] = sp_ftoc(centerVelocity.y);
+	addr3[2] = sp_ftoc(centerVelocity.z);
+
+	cell_t *addr4;
+	pContext->LocalToPhysAddr(params[3], &addr4);
+	addr4[0] = sp_ftoc(centerAngularVelocity.x);
+	addr4[1] = sp_ftoc(centerAngularVelocity.y);
+	addr4[2] = sp_ftoc(centerAngularVelocity.z);
+
+	return 1;
+}
+
+static cell_t ApplyForceCenter(IPluginContext *pContext, const cell_t *params)
+{
+	IPhysicsEnvironment *pPhysicsEnvironment = iphysics->GetActiveEnvironmentByIndex(0);
+
+	if (!pPhysicsEnvironment)
+	{
+		return pContext->ThrowNativeError("IPhysicsEnvironment null.");
+	}
+
+	IPhysicsObject *pObject = GetPhysicsObject(params[1]);
+
+	if (!pObject)
+	{
+		return pContext->ThrowNativeError("IPhysicsObject for entity %d null.", params[1]);
+	}
+
+	cell_t *addr;
+	pContext->LocalToPhysAddr(params[2], &addr);
+	Vector forceVector = Vector(sp_ctof(addr[0]), sp_ctof(addr[1]), sp_ctof(addr[2]));
+
+	pObject->ApplyForceCenter(forceVector);
+
+	return 1;
+}
+
+static cell_t ApplyTorqueCenter(IPluginContext *pContext, const cell_t *params)
+{
+	IPhysicsEnvironment *pPhysicsEnvironment = iphysics->GetActiveEnvironmentByIndex(0);
+
+	if (!pPhysicsEnvironment)
+	{
+		return pContext->ThrowNativeError("IPhysicsEnvironment null.");
+	}
+
+	IPhysicsObject *pObject = GetPhysicsObject(params[1]);
+
+	if (!pObject)
+	{
+		return pContext->ThrowNativeError("IPhysicsObject for entity %d null.", params[1]);
+	}
+
+	cell_t *addr;
+	pContext->LocalToPhysAddr(params[2], &addr);
+	AngularImpulse torque = AngularImpulse(sp_ctof(addr[0]), sp_ctof(addr[1]), sp_ctof(addr[2]));
+
+	pObject->ApplyTorqueCenter(torque);
+
+	return 1;
+}
+
+static cell_t AddVelocity(IPluginContext *pContext, const cell_t *params)
+{
+	IPhysicsEnvironment *pPhysicsEnvironment = iphysics->GetActiveEnvironmentByIndex(0);
+
+	if (!pPhysicsEnvironment)
+	{
+		return pContext->ThrowNativeError("IPhysicsEnvironment null.");
+	}
+
+	IPhysicsObject *pObject = GetPhysicsObject(params[1]);
+
+	if (!pObject)
+	{
+		return pContext->ThrowNativeError("IPhysicsObject for entity %d null.", params[1]);
+	}
+
+	cell_t *addr;
+	pContext->LocalToPhysAddr(params[2], &addr);
+	Vector velocity = Vector(sp_ctof(addr[0]), sp_ctof(addr[1]), sp_ctof(addr[2]));
+
+	cell_t *addr2;
+	pContext->LocalToPhysAddr(params[3], &addr2);
+	AngularImpulse angularVelocity = AngularImpulse(sp_ctof(addr2[0]), sp_ctof(addr2[1]), sp_ctof(addr2[2]));
+	
+	pObject->AddVelocity(&velocity, &angularVelocity);
+
+	return 1;
+}
+
+///////////////////////////////////////////
+
 static cell_t IsPhysicsObject(IPluginContext *pContext, const cell_t *params)
 {
 	if (GetPhysicsObject(params[1]))
@@ -382,6 +617,162 @@ static cell_t SetEnvironmentAirDensity(IPluginContext *pContext, const cell_t *p
 
 ///////////////////////////////////////////
 
+static cell_t CreateSpring(IPluginContext *pContext, const cell_t *params)
+{
+	if (!iphysics)
+	{
+		return pContext->ThrowNativeError("IPhysics null.");
+	}
+
+	IPhysicsEnvironment *pPhysicsEnvironment = iphysics->GetActiveEnvironmentByIndex(0);
+
+	if (!pPhysicsEnvironment)
+	{
+		return pContext->ThrowNativeError("IPhysicsEnvironment null.");
+	}
+
+	IPhysicsObject *pObjectStart = GetPhysicsObject(params[1]);
+
+	if (!pObjectStart)
+	{
+		return pContext->ThrowNativeError("IPhysicsObject for entity %d null.", params[1]);
+	}
+
+	IPhysicsObject *pObjectEnd = GetPhysicsObject(params[2]);
+
+	if (!pObjectEnd)
+	{
+		return pContext->ThrowNativeError("IPhysicsObject for entity %d null.", params[2]);
+	}
+
+	springparams_t spring;
+
+	cell_t *cellStartPos;
+	pContext->LocalToPhysAddr(params[3], &cellStartPos);
+	spring.startPosition = Vector(sp_ctof(cellStartPos[0]), sp_ctof(cellStartPos[1]), sp_ctof(cellStartPos[2]));
+
+	cell_t *cellEndPos;
+	pContext->LocalToPhysAddr(params[4], &cellEndPos);
+	spring.endPosition = Vector(sp_ctof(cellEndPos[0]), sp_ctof(cellEndPos[1]), sp_ctof(cellEndPos[2]));
+
+	spring.useLocalPositions = (params[5] > 0)?true:false;
+
+	spring.naturalLength = sp_ctof(params[6]);
+
+	spring.constant = sp_ctof(params[7]);
+	spring.damping = sp_ctof(params[8]);
+	spring.relativeDamping = sp_ctof(params[9]);
+
+	spring.onlyStretch = (params[10] > 0)?true:false;
+
+	IPhysicsSpring *pSpring = pPhysicsEnvironment->CreateSpring(pObjectStart, pObjectEnd, &spring);
+
+	return 1;
+}
+
+static cell_t CreateFixedConstraint(IPluginContext *pContext, const cell_t *params)
+{
+	if (!iphysics)
+	{
+		return pContext->ThrowNativeError("IPhysics null.");
+	}
+
+	IPhysicsEnvironment *pPhysicsEnvironment = iphysics->GetActiveEnvironmentByIndex(0);
+
+	if (!pPhysicsEnvironment)
+	{
+		return pContext->ThrowNativeError("IPhysicsEnvironment null.");
+	}
+
+	IPhysicsObject *pReferenceObject = GetPhysicsObject(params[1]);
+
+	if (!pReferenceObject)
+	{
+		return pContext->ThrowNativeError("IPhysicsObject for entity %d null.", params[1]);
+	}
+
+	IPhysicsObject *pAttachedObject = GetPhysicsObject(params[2]);
+
+	if (!pAttachedObject)
+	{
+		return pContext->ThrowNativeError("IPhysicsObject for entity %d null.", params[2]);
+	}
+
+	constraint_fixedparams_t fixedconstraint;
+
+	fixedconstraint.InitWithCurrentObjectState(pReferenceObject, pAttachedObject);
+
+	fixedconstraint.constraint.strength = sp_ctof(params[3]);
+	fixedconstraint.constraint.forceLimit = sp_ctof(params[4]);
+	fixedconstraint.constraint.torqueLimit = sp_ctof(params[5]);
+
+	fixedconstraint.constraint.bodyMassScale[0] = sp_ctof(params[6]);
+	fixedconstraint.constraint.bodyMassScale[1] = sp_ctof(params[7]);
+
+	fixedconstraint.constraint.isActive = (params[8] > 0)?true:false;
+
+	IPhysicsConstraint *pConstraint = pPhysicsEnvironment->CreateFixedConstraint(pReferenceObject, pAttachedObject, NULL, fixedconstraint);
+
+	return 1;
+}
+
+static cell_t CreateLengthConstraint(IPluginContext *pContext, const cell_t *params)
+{
+	if (!iphysics)
+	{
+		return pContext->ThrowNativeError("IPhysics null.");
+	}
+
+	IPhysicsEnvironment *pPhysicsEnvironment = iphysics->GetActiveEnvironmentByIndex(0);
+
+	if (!pPhysicsEnvironment)
+	{
+		return pContext->ThrowNativeError("IPhysicsEnvironment null.");
+	}
+
+	IPhysicsObject *pReferenceObject = GetPhysicsObject(params[1]);
+
+	if (!pReferenceObject)
+	{
+		return pContext->ThrowNativeError("IPhysicsObject for entity %d null.", params[1]);
+	}
+
+	IPhysicsObject *pAttachedObject = GetPhysicsObject(params[2]);
+
+	if (!pAttachedObject)
+	{
+		return pContext->ThrowNativeError("IPhysicsObject for entity %d null.", params[2]);
+	}
+
+	constraint_lengthparams_t lengthconstraint;
+
+	cell_t *refPosition;
+	pContext->LocalToPhysAddr(params[3], &refPosition);
+	pReferenceObject->WorldToLocal(&lengthconstraint.objectPosition[0], Vector(sp_ctof(refPosition[0]), sp_ctof(refPosition[1]), sp_ctof(refPosition[2])));
+
+	cell_t *attachedPosition;
+	pContext->LocalToPhysAddr(params[4], &attachedPosition);
+	pReferenceObject->WorldToLocal(&lengthconstraint.objectPosition[1], Vector(sp_ctof(attachedPosition[0]), sp_ctof(attachedPosition[1]), sp_ctof(attachedPosition[2])));
+
+	lengthconstraint.minLength = sp_ctof(params[5]);
+	lengthconstraint.totalLength = sp_ctof(params[6]);
+
+	lengthconstraint.constraint.strength = sp_ctof(params[7]);
+	lengthconstraint.constraint.forceLimit = sp_ctof(params[8]);
+	lengthconstraint.constraint.torqueLimit = sp_ctof(params[9]);
+
+	lengthconstraint.constraint.bodyMassScale[0] = sp_ctof(params[10]);
+	lengthconstraint.constraint.bodyMassScale[1] = sp_ctof(params[11]);
+
+	lengthconstraint.constraint.isActive = (params[12] > 0)?true:false;
+
+	IPhysicsConstraint *pConstraint = pPhysicsEnvironment->CreateLengthConstraint(pReferenceObject, pAttachedObject, NULL, lengthconstraint);
+
+	return 1;
+}
+
+///////////////////////////////////////////
+
 IPhysicsObject *GetPhysicsObject(int iEntityIndex)
 {
 	CBaseEntity *pEntity = PEntityOfEntIndex(iEntityIndex)->GetUnknown()->GetBaseEntity();
@@ -390,7 +781,7 @@ IPhysicsObject *GetPhysicsObject(int iEntityIndex)
 	{
 		return GetPhysicsObject(pEntity);
 	} else {
-		 return NULL;
+		return NULL;
 	}
 }
 
@@ -440,4 +831,14 @@ BEGIN_NATIVES(Phys)
 	ADD_NATIVE(Phys, SetEnvironmentGravity)
 	ADD_NATIVE(Phys, GetEnvironmentAirDensity)
 	ADD_NATIVE(Phys, SetEnvironmentAirDensity)
+	ADD_NATIVE(Phys, CreateSpring)
+	ADD_NATIVE(Phys, LocalToWorld)
+	ADD_NATIVE(Phys, WorldToLocal)
+	ADD_NATIVE(Phys, CalculateForceOffset)
+	ADD_NATIVE(Phys, CalculateVelocityOffset)
+	ADD_NATIVE(Phys, CreateFixedConstraint)
+	ADD_NATIVE(Phys, ApplyForceCenter)
+	ADD_NATIVE(Phys, ApplyTorqueCenter)
+	ADD_NATIVE(Phys, AddVelocity)
+	ADD_NATIVE(Phys, CreateLengthConstraint)
 END_NATIVES()

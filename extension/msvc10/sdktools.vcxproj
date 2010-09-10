@@ -710,6 +710,10 @@
   <ItemGroup>
     <ResourceCompile Include="..\version.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\vphysics.inc" />
+    <None Include="..\..\vphysics.sp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

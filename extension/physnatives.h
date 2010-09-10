@@ -44,8 +44,8 @@
 #include "vphysics_interface.h"
 #include "vphysics/constraints.h"
 
-IPhysicsObject *GetPhysicsObject(int iEntityIndex);
-IPhysicsObject *GetPhysicsObject(CBaseEntity *pEntity);
+inline IPhysicsObject *GetPhysicsObject(int iEntityIndex);
+inline IPhysicsObject *GetPhysicsObject(CBaseEntity *pEntity);
 
 extern sp_nativeinfo_t g_PhysNatives[];
 
