@@ -754,8 +754,8 @@ static cell_t CreateLengthConstraint(IPluginContext *pContext, const cell_t *par
 	pContext->LocalToPhysAddr(params[4], &attachedPosition);
 	pReferenceObject->WorldToLocal(&lengthconstraint.objectPosition[1], Vector(sp_ctof(attachedPosition[0]), sp_ctof(attachedPosition[1]), sp_ctof(attachedPosition[2])));
 
-	lengthconstraint.minLength = sp_ctof(params[5]);
-	lengthconstraint.totalLength = sp_ctof(params[6]);
+	lengthconstraint.totalLength = sp_ctof(params[5]);
+	lengthconstraint.minLength = sp_ctof(params[6]);
 
 	lengthconstraint.constraint.strength = sp_ctof(params[7]);
 	lengthconstraint.constraint.forceLimit = sp_ctof(params[8]);
@@ -767,6 +767,63 @@ static cell_t CreateLengthConstraint(IPluginContext *pContext, const cell_t *par
 	lengthconstraint.constraint.isActive = (params[12] > 0)?true:false;
 
 	IPhysicsConstraint *pConstraint = pPhysicsEnvironment->CreateLengthConstraint(pReferenceObject, pAttachedObject, NULL, lengthconstraint);
+
+	return 1;
+}
+
+static cell_t CreateHingeConstraint(IPluginContext *pContext, const cell_t *params)
+{
+	if (!iphysics)
+	{
+		return pContext->ThrowNativeError("IPhysics null.");
+	}
+
+	IPhysicsEnvironment *pPhysicsEnvironment = iphysics->GetActiveEnvironmentByIndex(0);
+
+	if (!pPhysicsEnvironment)
+	{
+		return pContext->ThrowNativeError("IPhysicsEnvironment null.");
+	}
+
+	IPhysicsObject *pReferenceObject = GetPhysicsObject(params[1]);
+
+	if (!pReferenceObject)
+	{
+		return pContext->ThrowNativeError("IPhysicsObject for entity %d null.", params[1]);
+	}
+
+	IPhysicsObject *pAttachedObject = GetPhysicsObject(params[2]);
+
+	if (!pAttachedObject)
+	{
+		return pContext->ThrowNativeError("IPhysicsObject for entity %d null.", params[2]);
+	}
+
+	constraint_hingeparams_t hingeconstraint;
+
+	cell_t *worldPosition;
+	pContext->LocalToPhysAddr(params[3], &worldPosition);
+	hingeconstraint.worldPosition = Vector(sp_ctof(worldPosition[0]), sp_ctof(worldPosition[1]), sp_ctof(worldPosition[2]));
+
+	cell_t *worldAxisDirection;
+	pContext->LocalToPhysAddr(params[4], &worldAxisDirection);
+	hingeconstraint.worldAxisDirection = Vector(sp_ctof(worldAxisDirection[0]), sp_ctof(worldAxisDirection[1]), sp_ctof(worldAxisDirection[2]));
+
+	hingeconstraint.hingeAxis.minRotation = sp_ctof(params[5]);
+	hingeconstraint.hingeAxis.maxRotation = sp_ctof(params[6]);
+	hingeconstraint.hingeAxis.angularVelocity = sp_ctof(params[7]);
+	hingeconstraint.hingeAxis.torque = sp_ctof(params[8]);
+
+	hingeconstraint.constraint.strength = sp_ctof(params[9]);
+	hingeconstraint.constraint.forceLimit = sp_ctof(params[10]);
+	hingeconstraint.constraint.torqueLimit = sp_ctof(params[11]);
+
+	hingeconstraint.constraint.bodyMassScale[0] = sp_ctof(params[12]);
+	hingeconstraint.constraint.bodyMassScale[1] = sp_ctof(params[13]);
+
+	hingeconstraint.constraint.isActive = (params[14] > 0)?true:false;
+
+	IPhysicsConstraint *pConstraint = pPhysicsEnvironment->CreateHingeConstraint(pReferenceObject, pAttachedObject, NULL, hingeconstraint);
 
 	return 1;
 }
@@ -841,4 +898,5 @@ BEGIN_NATIVES(Phys)
 	ADD_NATIVE(Phys, ApplyTorqueCenter)
 	ADD_NATIVE(Phys, AddVelocity)
 	ADD_NATIVE(Phys, CreateLengthConstraint)
+	ADD_NATIVE(Phys, CreateHingeConstraint)
 END_NATIVES()
