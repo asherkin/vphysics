@@ -1,0 +1,34 @@
+# vim: set ts=2 sw=2 tw=99 noet ft=python: 
+import os
+
+for i in SM.sdkInfo:
+	sdk = SM.sdkInfo[i]
+	if AMBuild.target['platform'] not in sdk['platform']:
+		continue
+
+	compiler = SM.DefaultHL2Compiler('extension', i)
+	compiler['CXXINCLUDES'].append(os.path.join(AMBuild.cache['SOURCEMOD13'], 'public'))
+	compiler['CXXINCLUDES'].append(os.path.join(AMBuild.cache['SOURCEMOD13'], 'public', 'sourcepawn'))
+	#compiler['CXXINCLUDES'].append(os.path.join(AMBuild.cache['SOURCEMOD13'], 'public', 'jit'))
+	#compiler['CXXINCLUDES'].append(os.path.join(AMBuild.cache['SOURCEMOD13'], 'public', 'jit', 'x86'))
+
+	if compiler.cc.name == 'gcc':
+		compiler['CFLAGS'].append('-Wno-parentheses')
+
+	if i != 'ep1':
+		compiler['CDEFINES'].append('HOOKING_ENABLED')
+
+	name = 'vphysics.ext.' + sdk['ext']
+	extension = AMBuild.AddJob(name)
+	binary = Cpp.LibraryBuilder(name, AMBuild, extension, compiler)
+	SM.PreSetupHL2Job(extension, binary, i)
+	binary.AddSourceFiles('extension', [
+		'extension.cpp',
+		'physhandles.cpp',
+		'physnatives.cpp',
+		'sdk/smsdk_ext.cpp'
+		])
+	SM.PostSetupHL2Job(extension, binary, i)
+	SM.AutoVersion('extension', binary)
+	binary.SendToJob()
+
