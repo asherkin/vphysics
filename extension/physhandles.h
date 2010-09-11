@@ -2,7 +2,7 @@
  * vim: set ts=4 :
  * =============================================================================
  * SourceMod SDKTools Extension
- * Copyright (C) 2004-2010 AlliedModders LLC.  All rights reserved.
+ * Copyright (C) 2004-2008 AlliedModders LLC.  All rights reserved.
  * =============================================================================
  *
  * This program is free software; you can redistribute it and/or modify it under
@@ -29,39 +29,39 @@
  * Version: $Id$
  */
 
+#ifndef _INCLUDE_SDKTOOLS_PHYSHANDLES_H_
+#define _INCLUDE_SDKTOOLS_PHYSHANDLES_H_
+
 #include "extension.h"
-#include "physnatives.h"
-#include "physhandles.h"
 
-/**
- * @file extension.cpp
- * @brief Implements SDK Tools extension code.
- */
+void RegisterHandles();
+void UnregisterHandles();
 
-SDKTools g_SdkTools;		/**< Global singleton for extension's main interface */
-IPhysics *iphysics = NULL;
-
-CGlobalVars *gpGlobals;
-
-SMEXT_LINK(&g_SdkTools);
-
-bool SDKTools::SDK_OnLoad(char *error, size_t maxlength, bool late)
+class IPhysicsObjectTypeHandler : public IHandleTypeDispatch
 {
-	sharesys->AddNatives(myself, g_PhysNatives);
+public:
+	void OnHandleDestroy(HandleType_t type, void *object);
+};
 
-	RegisterHandles();
-
-	return true;
-}
-
-void SDKTools::SDK_OnUnload()
+class IPhysicsSpringTypeHandler : public IHandleTypeDispatch
 {
-	UnregisterHandles();
-}
+public:
+	void OnHandleDestroy(HandleType_t type, void *object);
+};
 
-bool SDKTools::SDK_OnMetamodLoad(ISmmAPI *ismm, char *error, size_t maxlen, bool late)
+
+class IPhysicsConstraintTypeHandler : public IHandleTypeDispatch
 {
-	GET_V_IFACE_CURRENT(GetPhysicsFactory, iphysics, IPhysics, VPHYSICS_INTERFACE_VERSION);
-	gpGlobals = ismm->GetCGlobals();
-	return true;
-}
+public:
+	void OnHandleDestroy(HandleType_t type, void *object);
+};
+
+extern HandleType_t g_IPhysicsObjectType;
+extern HandleType_t g_IPhysicsSpringType;
+extern HandleType_t g_IPhysicsConstraintType;
+
+extern IPhysicsObjectTypeHandler g_IPhysicsObjectTypeHandler;
+extern IPhysicsSpringTypeHandler g_IPhysicsSpringTypeHandler;
+extern IPhysicsConstraintTypeHandler g_IPhysicsConstraintTypeHandler;
+
+#endif //_INCLUDE_SDKTOOLS_PHYSHANDLES_H_

@@ -30,6 +30,9 @@
     <ClCompile Include="..\physnatives.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\physhandles.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\sdk\smsdk_config.h">
@@ -45,6 +48,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\physhandles.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

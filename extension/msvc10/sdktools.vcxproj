@@ -697,11 +697,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\extension.cpp" />
+    <ClCompile Include="..\physhandles.cpp" />
     <ClCompile Include="..\physnatives.cpp" />
     <ClCompile Include="..\sdk\smsdk_ext.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\extension.h" />
+    <ClInclude Include="..\physhandles.h" />
     <ClInclude Include="..\physnatives.h" />
     <ClInclude Include="..\resource.h" />
     <ClInclude Include="..\sdk\smsdk_config.h" />
