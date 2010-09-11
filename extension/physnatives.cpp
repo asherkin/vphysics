@@ -519,6 +519,40 @@ static cell_t AddVelocity(IPluginContext *pContext, const cell_t *params)
 	return 1;
 }
 
+static cell_t SetVelocity(IPluginContext *pContext, const cell_t *params)
+{
+	IPhysicsEnvironment *pPhysicsEnvironment = iphysics->GetActiveEnvironmentByIndex(0);
+
+	if (!pPhysicsEnvironment)
+	{
+		return pContext->ThrowNativeError("IPhysicsEnvironment null.");
+	}
+
+	IPhysicsObject *pObject = GetPhysicsObject(params[1]);
+
+	if (!pObject)
+	{
+		return pContext->ThrowNativeError("IPhysicsObject for entity %d null.", params[1]);
+	}
+
+	cell_t *addr;
+	pContext->LocalToPhysAddr(params[2], &addr);
+	Vector velocity = Vector(sp_ctof(addr[0]), sp_ctof(addr[1]), sp_ctof(addr[2]));
+
+	cell_t *addr2;
+	pContext->LocalToPhysAddr(params[3], &addr2);
+	AngularImpulse angularVelocity = AngularImpulse(sp_ctof(addr2[0]), sp_ctof(addr2[1]), sp_ctof(addr2[2]));
+
+	if (params[3] > 0)
+	{
+		pObject->SetVelocityInstantaneous(&velocity, &angularVelocity);
+	} else {
+		pObject->SetVelocity(&velocity, &angularVelocity);
+	}
+
+	return 1;
+}
+
 ///////////////////////////////////////////
 
 static cell_t IsPhysicsObject(IPluginContext *pContext, const cell_t *params)
@@ -762,11 +796,13 @@ static cell_t CreateLengthConstraint(IPluginContext *pContext, const cell_t *par
 
 	cell_t *refPosition;
 	pContext->LocalToPhysAddr(params[3], &refPosition);
-	pReferenceObject->WorldToLocal(&lengthconstraint.objectPosition[0], Vector(sp_ctof(refPosition[0]), sp_ctof(refPosition[1]), sp_ctof(refPosition[2])));
+	//pReferenceObject->WorldToLocal(&lengthconstraint.objectPosition[0], Vector(sp_ctof(refPosition[0]), sp_ctof(refPosition[1]), sp_ctof(refPosition[2])));
+	lengthconstraint.objectPosition[0] = Vector(sp_ctof(refPosition[0]), sp_ctof(refPosition[1]), sp_ctof(refPosition[2]));
 
 	cell_t *attachedPosition;
 	pContext->LocalToPhysAddr(params[4], &attachedPosition);
-	pReferenceObject->WorldToLocal(&lengthconstraint.objectPosition[1], Vector(sp_ctof(attachedPosition[0]), sp_ctof(attachedPosition[1]), sp_ctof(attachedPosition[2])));
+	//pAttachedObject->WorldToLocal(&lengthconstraint.objectPosition[1], Vector(sp_ctof(attachedPosition[0]), sp_ctof(attachedPosition[1]), sp_ctof(attachedPosition[2])));
+	lengthconstraint.objectPosition[1] = Vector(sp_ctof(attachedPosition[0]), sp_ctof(attachedPosition[1]), sp_ctof(attachedPosition[2]));
 
 	lengthconstraint.totalLength = sp_ctof(params[5]);
 	lengthconstraint.minLength = sp_ctof(params[6]);
@@ -931,4 +967,5 @@ BEGIN_NATIVES(Phys)
 	ADD_NATIVE(Phys, AddVelocity)
 	ADD_NATIVE(Phys, CreateLengthConstraint)
 	ADD_NATIVE(Phys, CreateHingeConstraint)
+	ADD_NATIVE(Phys, SetVelocity)
 END_NATIVES()

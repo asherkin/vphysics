@@ -29,6 +29,7 @@ native Phys_CalculateVelocityOffset(entity, const Float:forceVector[3], const Fl
 native Phys_ApplyForceCenter(entity, const Float:forceVector[3]);
 native Phys_ApplyTorqueCenter(entity, const Float:torque[3]);
 native Phys_AddVelocity(entity, const Float:velocity[3], const Float:angularVelocity[3]);
+native Phys_SetVelocity(entity, const Float:velocity[3], const Float:angularVelocity[3], bool:instantaneous = false);
 
 native Phys_GetEnvironmentGravity(Float:gravity[3]);
 native Phys_SetEnvironmentGravity(const Float:gravity[3]);

@@ -20,6 +20,8 @@ public OnPluginStart() {
 	RegAdminCmd("sm_stoppivot", Command_RemPivot, ADMFLAG_CHEATS, "");
 
 	RegAdminCmd("sm_flip", Command_Flip, ADMFLAG_CHEATS, "");
+	
+	RegAdminCmd("sm_punt", Command_Punt, ADMFLAG_CHEATS, "");
 }
 
 public Action:Command_Flip(client, args)
@@ -147,4 +149,48 @@ public Action:Command_Grav(client, args)
 		Phys_EnableGravity(ent, true);
 	
 	return Plugin_Handled;
+}
+
+public Action:Command_Punt(client, args)
+{
+	/*new Float:eyePos[3];
+	new Float:eyeAng[3];
+	new Float:eyeVec[3];
+	
+	GetClientEyePosition(client, eyePos);
+	GetClientEyeAngles(client, eyeAng);
+	GetAngleVectors(eyeAng, eyeVec, NULL_VECTOR, NULL_VECTOR)
+	
+	new Handle:trace = TR_TraceRayFilterEx(eyePos, eyeAng, MASK_SHOT, RayType_Infinite, TraceEntityFilterOnlyVPhysics);
+	
+	if(TR_DidHit(trace) && TR_GetEntityIndex(trace))
+	{
+		new entIndex = TR_GetEntityIndex(trace);
+		new Float:hitPos[3];
+		TR_GetEndPosition(hitPos, trace);
+		
+		new Float:powerVec[3];
+		
+		powerVec[0] = eyeVec[0] * 15000.0;
+		powerVec[1] = eyeVec[1] * 15000.0;
+		powerVec[2] = eyeVec[2] * 15000.0;
+		
+		//pList[i]->ApplyForceCenter( forward * 15000.0f * ratio );
+		//pList[i]->ApplyForceOffset( forward * mass * 600.0f * ratio, tr.endpos );
+		
+		Phys_ApplyForceOffset(entIndex, powerVec, hitPos);
+	}
+	
+	CloseHandle(trace);*/
+	
+	new ent = GetClientAimTarget(client, false);
+	if (IsValidEntity(ent) && Phys_IsPhysicsObject(ent))
+		Phys_ApplyTorqueCenter(ent, Float:{0.0, 0.0, 10000.0});
+	
+	return Plugin_Handled;
+}
+
+public bool:TraceEntityFilterOnlyVPhysics(entity, contentsMask)
+{
+    return ((entity > MaxClients) && Phys_IsPhysicsObject(entity));
 }
