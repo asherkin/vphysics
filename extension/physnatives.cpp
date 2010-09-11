@@ -34,6 +34,7 @@
 #include "vphysics/constraints.h"
 
 #include "physnatives.h"
+#include "physhandles.h"
 
 ////////////////////////////////////////////////////////
 
@@ -522,12 +523,7 @@ static cell_t AddVelocity(IPluginContext *pContext, const cell_t *params)
 
 static cell_t IsPhysicsObject(IPluginContext *pContext, const cell_t *params)
 {
-	if (GetPhysicsObject(params[1]))
-	{
-		return 1;
-	} else {
-		return 0;
-	}
+	return (GetPhysicsObject(params[1]))?1:0;
 }
 
 ///////////////////////////////////////////
@@ -667,7 +663,16 @@ static cell_t CreateSpring(IPluginContext *pContext, const cell_t *params)
 
 	IPhysicsSpring *pSpring = pPhysicsEnvironment->CreateSpring(pObjectStart, pObjectEnd, &spring);
 
-	return 1;
+	if (pSpring)
+	{
+		return g_pHandleSys->CreateHandle(g_IPhysicsSpringType, 
+			pSpring, 
+			pContext->GetIdentity(), 
+			myself->GetIdentity(), 
+			NULL);
+	} else {
+		return BAD_HANDLE;
+	}
 }
 
 static cell_t CreateFixedConstraint(IPluginContext *pContext, const cell_t *params)
@@ -713,7 +718,16 @@ static cell_t CreateFixedConstraint(IPluginContext *pContext, const cell_t *para
 
 	IPhysicsConstraint *pConstraint = pPhysicsEnvironment->CreateFixedConstraint(pReferenceObject, pAttachedObject, NULL, fixedconstraint);
 
-	return 1;
+	if (pConstraint)
+	{
+		return g_pHandleSys->CreateHandle(g_IPhysicsConstraintType, 
+			pConstraint, 
+			pContext->GetIdentity(), 
+			myself->GetIdentity(), 
+			NULL);
+	} else {
+		return BAD_HANDLE;
+	}
 }
 
 static cell_t CreateLengthConstraint(IPluginContext *pContext, const cell_t *params)
@@ -768,7 +782,16 @@ static cell_t CreateLengthConstraint(IPluginContext *pContext, const cell_t *par
 
 	IPhysicsConstraint *pConstraint = pPhysicsEnvironment->CreateLengthConstraint(pReferenceObject, pAttachedObject, NULL, lengthconstraint);
 
-	return 1;
+	if (pConstraint)
+	{
+		return g_pHandleSys->CreateHandle(g_IPhysicsConstraintType, 
+			pConstraint, 
+			pContext->GetIdentity(), 
+			myself->GetIdentity(), 
+			NULL);
+	} else {
+		return BAD_HANDLE;
+	}
 }
 
 static cell_t CreateHingeConstraint(IPluginContext *pContext, const cell_t *params)
@@ -825,7 +848,16 @@ static cell_t CreateHingeConstraint(IPluginContext *pContext, const cell_t *para
 
 	IPhysicsConstraint *pConstraint = pPhysicsEnvironment->CreateHingeConstraint(pReferenceObject, pAttachedObject, NULL, hingeconstraint);
 
-	return 1;
+	if (pConstraint)
+	{
+		return g_pHandleSys->CreateHandle(g_IPhysicsConstraintType, 
+			pConstraint, 
+			pContext->GetIdentity(), 
+			myself->GetIdentity(), 
+			NULL);
+	} else {
+		return BAD_HANDLE;
+	}
 }
 
 ///////////////////////////////////////////

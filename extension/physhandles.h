@@ -37,12 +37,6 @@
 void RegisterHandles();
 void UnregisterHandles();
 
-class IPhysicsObjectTypeHandler : public IHandleTypeDispatch
-{
-public:
-	void OnHandleDestroy(HandleType_t type, void *object);
-};
-
 class IPhysicsSpringTypeHandler : public IHandleTypeDispatch
 {
 public:
@@ -56,11 +50,9 @@ public:
 	void OnHandleDestroy(HandleType_t type, void *object);
 };
 
-extern HandleType_t g_IPhysicsObjectType;
 extern HandleType_t g_IPhysicsSpringType;
 extern HandleType_t g_IPhysicsConstraintType;
 
-extern IPhysicsObjectTypeHandler g_IPhysicsObjectTypeHandler;
 extern IPhysicsSpringTypeHandler g_IPhysicsSpringTypeHandler;
 extern IPhysicsConstraintTypeHandler g_IPhysicsConstraintTypeHandler;
 

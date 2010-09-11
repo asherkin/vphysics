@@ -1,16 +1,5 @@
 #include "physhandles.h"
 
-// IPhysicsObject
-HandleType_t g_IPhysicsObjectType = 0;	/* Holds the HandleType ID */
-
-void IPhysicsObjectTypeHandler::OnHandleDestroy(HandleType_t type, void *object)
-{
-	return g_pSM->LogError(myself, "You shouldn't be calling this.");
-}
-
-/* Create an instance of the handler */
-IPhysicsObjectTypeHandler g_IPhysicsObjectTypeHandler;
-
 // IPhysicsSpring
 HandleType_t g_IPhysicsSpringType = 0;	/* Holds the HandleType ID */
 
@@ -59,22 +48,6 @@ IPhysicsConstraintTypeHandler g_IPhysicsConstraintTypeHandler;
 
 void RegisterHandles()
 {
-	/* Create default access rights */
-	HandleAccess IPhysicsObjectRules;
-	g_pHandleSys->InitAccessDefaults(NULL, &IPhysicsObjectRules);
-
-	/* Restrict delete to only our identity */
-	IPhysicsObjectRules.access[HandleAccess_Delete] = HANDLE_RESTRICT_IDENTITY;
-
-	/* Register the type with our security permissions */
-	g_IPhysicsObjectType = g_pHandleSys->CreateType("IPhysicsObject", 
-		&g_IPhysicsObjectTypeHandler, 
-		0, 
-		NULL, 
-		&IPhysicsObjectRules, 
-		myself->GetIdentity(), 
-		NULL);
-
 	/* Register the type with default security permissions */
 	g_IPhysicsSpringType = g_pHandleSys->CreateType("IPhysicsSpring", 
 		&g_IPhysicsSpringTypeHandler, 
@@ -97,7 +70,6 @@ void RegisterHandles()
 void UnregisterHandles()
 {
 	/* Remove the type on shutdown */
-	g_pHandleSys->RemoveType(g_IPhysicsObjectType, myself->GetIdentity());
 	g_pHandleSys->RemoveType(g_IPhysicsSpringType, myself->GetIdentity());
 	g_pHandleSys->RemoveType(g_IPhysicsConstraintType, myself->GetIdentity());
 }
