@@ -76,7 +76,7 @@ static cell_t IsHinged(IPluginContext *pContext, const cell_t *params)
 
 static cell_t IsCollisionEnabled(IPluginContext *pContext, const cell_t *params)
 {
-#if SOURCE_ENGINE > SE_EPISODEONE
+#if SOURCE_ENGINE > SE_DARKMESSIAH
 	IPhysicsObject *m_pPhysicsObject = GetPhysicsObject(params[1]);
 
 	if (!m_pPhysicsObject)
@@ -92,7 +92,7 @@ static cell_t IsCollisionEnabled(IPluginContext *pContext, const cell_t *params)
 
 static cell_t IsGravityEnabled(IPluginContext *pContext, const cell_t *params)
 {
-#if SOURCE_ENGINE > SE_EPISODEONE
+#if SOURCE_ENGINE > SE_DARKMESSIAH
 		IPhysicsObject *m_pPhysicsObject = GetPhysicsObject(params[1]);
 	
 		if (!m_pPhysicsObject)
@@ -108,7 +108,7 @@ static cell_t IsGravityEnabled(IPluginContext *pContext, const cell_t *params)
 
 static cell_t IsDragEnabled(IPluginContext *pContext, const cell_t *params)
 {
-#if SOURCE_ENGINE > SE_EPISODEONE
+#if SOURCE_ENGINE > SE_DARKMESSIAH
 		IPhysicsObject *m_pPhysicsObject = GetPhysicsObject(params[1]);
 	
 		if (!m_pPhysicsObject)
@@ -124,7 +124,7 @@ static cell_t IsDragEnabled(IPluginContext *pContext, const cell_t *params)
 
 static cell_t IsMotionEnabled(IPluginContext *pContext, const cell_t *params)
 {
-#if SOURCE_ENGINE > SE_EPISODEONE
+#if SOURCE_ENGINE > SE_DARKMESSIAH
 		IPhysicsObject *m_pPhysicsObject = GetPhysicsObject(params[1]);
 	
 		if (!m_pPhysicsObject)
@@ -573,7 +573,7 @@ static cell_t GetEnvironmentGravity(IPluginContext *pContext, const cell_t *para
 
 	Vector envGravity;
 
-#if SOURCE_ENGINE > SE_EPISODEONE
+#if SOURCE_ENGINE > SE_DARKMESSIAH
 	pPhysicsEnvironment->GetGravity(&envGravity);
 #else
 	pPhysicsEnvironment->GetGravity(envGravity);
