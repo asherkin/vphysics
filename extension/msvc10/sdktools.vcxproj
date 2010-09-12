@@ -317,7 +317,7 @@
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>$(HL2SDK)\lib\public\tier0.lib;$(HL2SDK)\lib\public\tier1.lib;$(HL2SDK)\lib\public\vstdlib.lib;$(HL2SDK)\lib\public\mathlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)sdktools.ext.1.ep1.dll</OutputFile>
+      <OutputFile>$(OutDir)vphysics.ext.1.ep1.dll</OutputFile>
       <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -346,7 +346,7 @@
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>$(HL2SDK)\lib\public\tier0.lib;$(HL2SDK)\lib\public\tier1.lib;$(HL2SDK)\lib\public\vstdlib.lib;$(HL2SDK)\lib\public\mathlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)sdktools.ext.1.ep1.dll</OutputFile>
+      <OutputFile>$(OutDir)vphysics.ext.1.ep1.dll</OutputFile>
       <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMTD;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -379,7 +379,7 @@
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>$(HL2SDKOB)\lib\public\tier0.lib;$(HL2SDKOB)\lib\public\tier1.lib;$(HL2SDKOB)\lib\public\vstdlib.lib;$(HL2SDKOB)\lib\public\mathlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)sdktools.ext.2.ep2.dll</OutputFile>
+      <OutputFile>$(OutDir)vphysics.ext.2.ep2.dll</OutputFile>
       <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -408,7 +408,7 @@
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>$(HL2SDKOB)\lib\public\tier0.lib;$(HL2SDKOB)\lib\public\tier1.lib;$(HL2SDKOB)\lib\public\vstdlib.lib;$(HL2SDKOB)\lib\public\mathlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)sdktools.ext.2.ep2.dll</OutputFile>
+      <OutputFile>$(OutDir)vphysics.ext.2.ep2.dll</OutputFile>
       <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMTD;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -438,7 +438,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>$(HL2SDK)\lib\public\tier0.lib;$(HL2SDK)\lib\public\tier1.lib;$(HL2SDK)\lib\public\vstdlib.lib;$(HL2SDK)\lib\public\mathlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)sdktools.ext.dll</OutputFile>
+      <OutputFile>$(OutDir)vphysics.ext.dll</OutputFile>
       <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -467,7 +467,7 @@
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>$(HL2SDK)\lib\public\tier0.lib;$(HL2SDK)\lib\public\tier1.lib;$(HL2SDK)\lib\public\vstdlib.lib;$(HL2SDK)\lib\public\mathlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)sdktools.ext.1.ep1.dll</OutputFile>
+      <OutputFile>$(OutDir)vphysics.ext.1.ep1.dll</OutputFile>
       <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMTD;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -500,7 +500,7 @@
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>$(HL2SDKL4D)\lib\public\tier0.lib;$(HL2SDKL4D)\lib\public\tier1.lib;$(HL2SDKL4D)\lib\public\vstdlib.lib;$(HL2SDKL4D)\lib\public\mathlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)sdktools.ext.2.l4d.dll</OutputFile>
+      <OutputFile>$(OutDir)vphysics.ext.2.l4d.dll</OutputFile>
       <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -529,7 +529,7 @@
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>$(HL2SDKL4D)\lib\public\tier0.lib;$(HL2SDKL4D)\lib\public\tier1.lib;$(HL2SDKL4D)\lib\public\vstdlib.lib;$(HL2SDKL4D)\lib\public\mathlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)sdktools.ext.2.l4d.dll</OutputFile>
+      <OutputFile>$(OutDir)vphysics.ext.2.l4d.dll</OutputFile>
       <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMTD;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -562,7 +562,7 @@
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>$(HL2SDK-DARKM)\lib\public\tier0.lib;$(HL2SDK-DARKM)\lib\public\tier1.lib;$(HL2SDK-DARKM)\lib\public\vstdlib.lib;$(HL2SDK-DARKM)\lib\public\mathlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)sdktools.ext.2.darkm.dll</OutputFile>
+      <OutputFile>$(OutDir)vphysics.ext.2.darkm.dll</OutputFile>
       <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -591,7 +591,7 @@
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>$(HL2SDK-DARKM)\lib\public\tier0.lib;$(HL2SDK-DARKM)\lib\public\tier1.lib;$(HL2SDK-DARKM)\lib\public\vstdlib.lib;$(HL2SDK-DARKM)\lib\public\mathlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)sdktools.ext.2.darkm.dll</OutputFile>
+      <OutputFile>$(OutDir)vphysics.ext.2.darkm.dll</OutputFile>
       <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMTD;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -625,7 +625,7 @@
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>$(HL2SDKOBVALVE)\lib\public\tier0.lib;$(HL2SDKOBVALVE)\lib\public\tier1.lib;$(HL2SDKOBVALVE)\lib\public\vstdlib.lib;$(HL2SDKOBVALVE)\lib\public\mathlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)sdktools.ext.2.ep2v.dll</OutputFile>
+      <OutputFile>$(OutDir)vphysics.ext.2.ep2v.dll</OutputFile>
       <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -655,7 +655,7 @@
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>$(HL2SDKOBVALVE)\lib\public\tier0.lib;$(HL2SDKOBVALVE)\lib\public\tier1.lib;$(HL2SDKOBVALVE)\lib\public\vstdlib.lib;$(HL2SDKOBVALVE)\lib\public\mathlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)sdktools.ext.2.ep2v.dll</OutputFile>
+      <OutputFile>$(OutDir)vphysics.ext.2.ep2v.dll</OutputFile>
       <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMTD;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -689,7 +689,7 @@
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>$(HL2SDKSWARM)\lib\public\tier0.lib;$(HL2SDKSWARM)\lib\public\tier1.lib;$(HL2SDKSWARM)\lib\public\vstdlib.lib;$(HL2SDKSWARM)\lib\public\mathlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)sdktools.ext.2.ep2v.dll</OutputFile>
+      <OutputFile>$(OutDir)vphysics.ext.2.swarm.dll</OutputFile>
       <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -719,7 +719,7 @@
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>$(HL2SDKSWARM)\lib\public\interfaces.lib;$(HL2SDKSWARM)\lib\public\tier0.lib;$(HL2SDKSWARM)\lib\public\tier1.lib;$(HL2SDKSWARM)\lib\public\vstdlib.lib;$(HL2SDKSWARM)\lib\public\mathlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)sdktools.ext.2.ep2v.dll</OutputFile>
+      <OutputFile>$(OutDir)vphysics.ext.2.swarm.dll</OutputFile>
       <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMTD;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -753,7 +753,7 @@
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>$(HL2SDKL4D2)\lib\public\tier0.lib;$(HL2SDKL4D2)\lib\public\tier1.lib;$(HL2SDKL4D2)\lib\public\vstdlib.lib;$(HL2SDKL4D2)\lib\public\mathlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)sdktools.ext.2.l4d2.dll</OutputFile>
+      <OutputFile>$(OutDir)vphysics.ext.2.l4d2.dll</OutputFile>
       <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -782,7 +782,7 @@
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>$(HL2SDKL4D2)\lib\public\tier0.lib;$(HL2SDKL4D2)\lib\public\tier1.lib;$(HL2SDKL4D2)\lib\public\vstdlib.lib;$(HL2SDKL4D2)\lib\public\mathlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)sdktools.ext.2.l4d2.dll</OutputFile>
+      <OutputFile>$(OutDir)vphysics.ext.2.l4d2.dll</OutputFile>
       <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMTD;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
