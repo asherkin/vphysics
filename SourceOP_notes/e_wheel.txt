@@ -1,0 +1,286 @@
+if ( !strcasecmp(s1, "e_wheel") )
+{
+	if ( CAdminOPPlayer__IsAdmin(a2, 1024, "e_wheel") )
+	{
+		v322 = VFuncs__EyeAngles(v840);
+		v994 = *(_DWORD *)v322;
+		v995 = *(_DWORD *)(v322 + 4);
+		v996 = *(_DWORD *)(v322 + 8);
+		AngleVectors(&v994, &v1009, &v1006, &v1016);
+		CAdminOPPlayer__EyePosition(&v1159);
+		v323 = v1161;
+		v859 = v1160;
+		v860 = v1159;
+		v1165 = v1009 * 8192.0;
+		v1166 = v1010 * 8192.0;
+		v1167 = 8192.0 * v1011;
+		CAdminOPPlayer__EyePosition(&v1168);
+		v324 = v1168 + v1165;
+		v1162 = v324;
+		v325 = v1169 + v1166;
+		v1163 = v325;
+		v326 = v1170 + v1167;
+		v1164 = v326;
+		v718 = v326;
+		v717 = v324;
+		v716 = v325;
+		CTraceFilterSimple__CTraceFilterSimple(&v1012, v840, 0);
+		v715 = v323;
+		v928 = 1;
+		v918 = v323;
+		v919 = v717 - v860;
+		v920 = v716 - v859;
+		v921 = v718 - v323;
+		v929 = __SETP__(&v697, 0) | 1;
+		v927 = 0.0;
+		v926 = 0.0;
+		v925 = 0.0;
+		v924 = 0.0;
+		v923 = 0.0;
+		v922 = 0.0;
+		v916 = v860;
+		v327 = *(_DWORD *)enginetrace;
+		LODWORD(v700) = &v886;
+		v917 = v859;
+		v699 = &v1012;
+		v698 = 33701899;
+		v697 = (signed int)&v916;
+		(*(void (__cdecl **)(int, float *, signed int, char *))(v327 + 16))(enginetrace, &v916, 33701899, &v1012);
+		if ( (v893 <= 1.0 || v894 || v895) && v896 && VFuncs__entindex(v896) )
+		{
+			v803 = v896;
+			v329 = *(_DWORD *)engine;
+			v697 = 1;
+			v330 = (const char *)(*(int (__cdecl **)(int, signed int, int, char *))(v329 + 200))(engine, 1, v698, v699);
+			if ( strcasecmp(v330, "car")
+					&& (v361 = *(_DWORD *)engine,
+						v697 = 1,
+						v362 = (const char *)(*(int (__cdecl **)(int, signed int))(v361 + 200))(engine, 1),
+						strcasecmp(v362, &a000[4])) )
+			{
+				v363 = *(_DWORD *)engine;
+				v697 = 1;
+				v364 = (const char *)(*(int (__cdecl **)(int, signed int))(v363 + 200))(engine, 1);
+				if ( strcasecmp(v364, "apc")
+						&& (v369 = *(_DWORD *)engine,
+							v697 = 1,
+							v370 = (const char *)(*(int (__cdecl **)(int, signed int))(v369 + 200))(engine, 1),
+							strcasecmp(v370, &aBindmenuS1[12])) )
+				{
+					v371 = *(_DWORD *)engine;
+					v697 = 1;
+					v372 = (const char *)(*(int (__cdecl **)(int, signed int))(v371 + 200))(engine, 1);
+					if ( strcasecmp(v372, "tractor")
+							&& (v458 = *(_DWORD *)engine,
+								v697 = 1,
+								v459 = (const char *)(*(int (__cdecl **)(int, signed int))(v458 + 200))(engine, 1),
+								strcasecmp(v459, &aBindmenuS2[12])) )
+					{
+						v460 = *(_DWORD *)engine;
+						v697 = 1;
+						v461 = (const char *)(*(int (__cdecl **)(int, signed int))(v460 + 200))(engine, 1);
+						if ( strcasecmp(v461, "cart")
+								&& (v499 = *(_DWORD *)engine,
+									v697 = 1,
+									v500 = (const char *)(*(int (__cdecl **)(int, signed int))(v499 + 200))(engine, 1),
+									strcasecmp(v500, &aMouseButton3[13])) )
+						{
+							v501 = *(_DWORD *)engine;
+							v697 = 1;
+							v502 = (const char *)(*(int (__cdecl **)(int, signed int))(v501 + 200))(engine, 1);
+							if ( strcasecmp(v502, "cart_giant") )
+							{
+								v506 = *(_DWORD *)engine;
+								v697 = 1;
+								v507 = (const char *)(*(int (__cdecl **)(int, signed int))(v506 + 200))(engine, 1);
+								if ( strcasecmp(v507, &aMouseButton4[13]) )
+								{
+									v508 = UTIL_VarArgs(
+									"[%s] Invalid wheel name. For valid wheel names, say !help.\n",
+									(unsigned int)pAdminOP + 83);
+									CAdminOPPlayer__SayTextChatHud(a2, v508);
+									return 2;
+								}
+							}
+							v804 = 4;
+						}
+						else
+						{
+							v804 = 3;
+						}
+					}
+					else
+					{
+						v804 = 2;
+					}
+				}
+				else
+				{
+					v804 = 1;
+				}
+			}
+			else
+			{
+				v804 = 0;
+			}
+			v805 = CreateEntityByName("prop_physics_multiplayer", -1);
+			if ( v805 )
+			{
+				v762 = (int)&v1013;
+				VectorAngles(&v890, &v1013);
+				v779 = (int)&szTires[64 * v804];
+				v698 = (int)&szTires[64 * v804];
+				VFuncs__KeyValue(v805, "model", v698);
+				VFuncs__KeyValue(v805, "spawnflags", "256");
+				VFuncs__KeyValue(v805, "physdamagescale", &a127_0_0_1[6]);
+				v356 = v805;
+				VFuncs__KeyValue(v805, "ExplodeDamage", &a000[4]);
+				VFuncs__KeyValue(v356, &unk_101B14, &a000[4]);
+				VFuncs__Spawn(v356);
+				VFuncs__Activate(v356);
+				VFuncs__SetModel(v356, v779);
+				v357 = *(_DWORD *)modelinfo; // VModelInfoServer001
+				v697 = v779;
+				v355 = (*(int (__cdecl **)(int, int, int))(v357 + 12))(modelinfo, v779, v698); // virtual int GetModelIndex( const char *name ) const = 0;
+				if ( v355 >= 0 ) // if model index (v355) is 0, model isn't precached
+				{
+					v486 = *(_DWORD *)modelinfo;
+					v697 = v355;
+					v485 = (*(int (__cdecl **)(int, int))(v486 + 8))(modelinfo, v355); // virtual const model_t *GetModel( int modelindex ) const = 0;
+					if ( !v485 )
+					{
+						v543 = UTIL_VarArgs("[%s] Wheel has no model_t. This is an engine error.\n", (unsigned int)pAdminOP + 83);
+						CAdminOPPlayer__SayTextChatHud(a2, v543);
+						return 2;
+					}
+					v487 = *(_DWORD *)modelinfo;
+					v699 = (char *)&v997;
+					v698 = (int)&v991;
+					v697 = v485;
+					(*(void (__cdecl **)(int, int, float *))(v487 + 28))(modelinfo, v485, &v991); // virtual void GetModelBounds( const model_t *model, Vector& mins, Vector& maxs ) const = 0;
+					if ( v804 > 2 ) // if it's 'cart' or 'cart_giant' - wheel rotates around y-axis instead of x-axis
+					{
+						v541 = v998 - (v992 + v998);
+						v1180 = v541 * v890;
+						v542 = v541 * v891;
+						v1181 = v542;
+						v1182 = v541 * v892;
+						*(float *)&v1177 = v887 + v1180;
+						LODWORD(v1000) = v1177;
+						*(float *)&v1178 = v542 + v888;
+						LODWORD(v1001) = v1178;
+						*(float *)&v1179 = v889 + v1182;
+						LODWORD(v1002) = v1179;
+						VFuncs__Teleport(v805, &v1000, v762, 0);
+						v761 = &v936;
+						AngleMatrix(v762, &v1000, &v936);
+						v1183 = 0;
+						v1184 = 0;
+						v1185 = 1065353216;
+						LODWORD(v1003) = 0;
+						LODWORD(v1004) = 0;
+						v1005 = 1065353216;
+						AxisAngleQuaternion(&v1003, -1028390912, &v990, v699, LODWORD(v700));
+						v760 = &v937;
+						QuaternionMatrix(&v990, vec3_origin, &v937);
+						v759 = &v938;
+						ConcatTransforms(v761, v760, &v938);
+						MatrixAngles(v759, &v1019);
+						VFuncs__SetAbsAngles(v805, &v1019);
+					}
+					else
+					{
+						v488 = (v997 - v991) * 0.5;
+						v1174 = v488 * v890;
+						v489 = v488 * v891;
+						v1175 = v489;
+						v1176 = v488 * v892;
+						v1171 = v887 + v1174;
+						v1172 = v489 + v888;
+						v1173 = v889 + v1176;
+						VFuncs__Teleport(v805, &v1171, v762, 0);
+					}
+					v492 = v805;
+					v1454 = VFuncs__entindex(v805);
+					CUtlLinkedList_unsigned_int_unsigned_short___InsertBefore(a2 + 492, -1, &v1454);
+					v1455 = VFuncs__entindex(v492);
+					CUtlLinkedList_unsigned_int_unsigned_short___InsertBefore(&pAdminOP[332688], -1, &v1455);
+					v491 = VFuncs__VPhysicsGetObject(v803);
+					v490 = VFuncs__VPhysicsGetObject(v492);
+					if ( !v491 || !v490 )
+						return 2;
+					v903 = 0;
+					v904 = 0;
+					v905 = 0;
+					v897 = v887;
+					v906 = 0;
+					v908 = 0;
+					v909 = 0;
+					v898 = v888;
+					v907 = 1065353216;
+					v910 = 1065353216;
+					v911 = 1065353216;
+					v899 = v889;
+					v912 = 1;
+					v900 = v890;
+					v901 = v891;
+					v902 = v892;
+					v493 = *(_DWORD *)physenv;
+					LODWORD(v700) = &v897;
+					v699 = 0;
+					v698 = v490;
+					v697 = v491;
+					v1447 = (*(int (__cdecl **)(int, int, int, _DWORD, float *))(v493 + 56))(physenv, v491, v490, 0, &v897);
+					if ( v1447 )
+					{
+						CUtlLinkedList_IPhysicsConstraint___unsigned_short___InsertBefore(a2 + 908, -1, &v1447);
+						v780 = *(_WORD *)(a2 + 922);
+						v494 = (char *)VFuncs__entindex(v805);
+						v495 = VFuncs__entindex(v803);
+						v699 = v494;
+						LODWORD(v700) = v780;
+						v698 = v495;
+						v496 = UTIL_VarArgs(
+						"[%s] Wheel added to ent %i. New ent = %i with constraint ID %i\n",
+						(unsigned int)pAdminOP + 83);
+						CAdminOPPlayer__SayTextChatHud(a2, v496);
+						v770 = 2;
+					}
+					else
+					{
+						v540 = UTIL_VarArgs("[%s] Unable to add constraint.\n", (unsigned int)pAdminOP + 83);
+						CAdminOPPlayer__SayTextChatHud(a2, v540);
+						v770 = 2;
+					}
+				}
+				else
+				{
+					v358 = UTIL_VarArgs("[%s] Wheel not precached.\n", (unsigned int)pAdminOP + 83);
+					CAdminOPPlayer__SayTextChatHud(a2, v358);
+					v770 = 2;
+				}
+			}
+			else
+			{
+				v331 = UTIL_VarArgs("[%s] Spawn failure.\n", (unsigned int)pAdminOP + 83);
+				CAdminOPPlayer__SayTextChatHud(a2, v331);
+				v770 = 2;
+			}
+		}
+		else
+		{
+			v328 = UTIL_VarArgs(
+			"[%s] Unable to add constraint because no entity was detected under crosshair.\n",
+			(unsigned int)pAdminOP + 83);
+			CAdminOPPlayer__SayTextChatHud(a2, v328);
+			v770 = 2;
+		}
+	}
+	else
+	{
+		v320 = UTIL_VarArgs("[%s] You do not have access to the command e_wheel.\n", (_BYTE)pAdminOP + 83);
+		CAdminOPPlayer__SayText(a2, v320, 2);
+		v770 = 2;
+	}
+	return v770;
+}
