@@ -36,10 +36,13 @@ native Phys_SetEnvironmentGravity(const Float:gravity[3]);
 native Float:Phys_GetEnvironmentAirDensity();
 native Phys_SetEnvironmentAirDensity(Float:density);
 
+native Handle:Phys_CreateConstraintGroup(additionalIterations = 0, minErrorTicks = 15, Float:errorTolerance = 3.0);
+
 native Handle:Phys_CreateSpring(startObject, endObject, const Float:startPos[3], const Float:endPos[3], bool:useLocalPositions, Float:naturalLength, Float:constant, Float:damping, Float:relativeDamping, bool:onlyStretch);
-native Handle:Phys_CreateFixedConstraint(referenceObject, attachedObject, Float:strength = 1.0, Float:forceLimit = 0.0, Float:torqueLimit = 0.0, Float:bodyMassScaleRef = 1.0, Float:bodyMassScaleAttached = 1.0, bool:isActive = true);
-native Handle:Phys_CreateLengthConstraint(referenceObject, attachedObject, const Float:refPosition[3], const Float:attachedPosition[3], Float:totalLength, Float:minLength = 0.0, Float:strength = 1.0, Float:forceLimit = 0.0, Float:torqueLimit = 0.0, Float:bodyMassScaleRef = 1.0, Float:bodyMassScaleAttached = 1.0, bool:isActive = true);
-native Handle:Phys_CreateHingeConstraint(referenceObject, attachedObject, const Float:worldPosition[3], const Float:worldAxisDirection[3], Float:minRotation = 0.0, Float:maxRotation = 0.0, Float:angularVelocity = 0.0, Float:torque = 0.0, Float:strength = 1.0, Float:forceLimit = 0.0, Float:torqueLimit = 0.0, Float:bodyMassScaleRef = 1.0, Float:bodyMassScaleAttached = 1.0, bool:isActive = true);
+
+native Handle:Phys_CreateFixedConstraint(referenceObject, attachedObject, Handle:constraintGroup, Float:strength = 1.0, Float:forceLimit = 0.0, Float:torqueLimit = 0.0, Float:bodyMassScaleRef = 1.0, Float:bodyMassScaleAttached = 1.0, bool:isActive = true);
+native Handle:Phys_CreateLengthConstraint(referenceObject, attachedObject, Handle:constraintGroup, const Float:refPosition[3], const Float:attachedPosition[3], Float:totalLength, Float:minLength = 0.0, Float:strength = 1.0, Float:forceLimit = 0.0, Float:torqueLimit = 0.0, Float:bodyMassScaleRef = 1.0, Float:bodyMassScaleAttached = 1.0, bool:isActive = true);
+native Handle:Phys_CreateHingeConstraint(referenceObject, attachedObject, Handle:constraintGroup, const Float:worldPosition[3], const Float:worldAxisDirection[3], Float:minRotation = 0.0, Float:maxRotation = 0.0, Float:angularVelocity = 0.0, Float:torque = 0.0, Float:strength = 1.0, Float:forceLimit = 0.0, Float:torqueLimit = 0.0, Float:bodyMassScaleRef = 1.0, Float:bodyMassScaleAttached = 1.0, bool:isActive = true);
 
 stock Phys_ApplyForceOffset(entity, const Float:forceVector[3], const Float:worldPosition[3])
 {

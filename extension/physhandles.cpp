@@ -46,10 +46,33 @@ void IPhysicsConstraintTypeHandler::OnHandleDestroy(HandleType_t type, void *obj
 /* Create an instance of the handler */
 IPhysicsConstraintTypeHandler g_IPhysicsConstraintTypeHandler;
 
+// IPhysicsConstraintGroup
+HandleType_t g_IPhysicsConstraintGroupType = 0;	/* Holds the HandleType ID */
+
+void IPhysicsConstraintGroupTypeHandler::OnHandleDestroy(HandleType_t type, void *object)
+{
+	if (!iphysics)
+	{
+		return g_pSM->LogError(myself, "OnHandleDestroy handler for IPhysicsConstraintGroup called while IPhysics interface is null.");
+	}
+
+	IPhysicsEnvironment *pPhysicsEnvironment = iphysics->GetActiveEnvironmentByIndex(0);
+
+	if (!pPhysicsEnvironment)
+	{
+		return g_pSM->LogError(myself, "OnHandleDestroy handler for IPhysicsConstraintGroup called while IPhysicsEnvironment pointer is null.");
+	}
+
+	pPhysicsEnvironment->DestroyConstraintGroup((IPhysicsConstraintGroup *)object);
+}
+
+/* Create an instance of the handler */
+IPhysicsConstraintGroupTypeHandler g_IPhysicsConstraintGroupTypeHandler;
+
 void RegisterHandles()
 {
 	/* Register the type with default security permissions */
-	g_IPhysicsSpringType = g_pHandleSys->CreateType("IPhysicsSpring", 
+	g_IPhysicsSpringType = g_pHandleSys->CreateType("PhysicsSpring", 
 		&g_IPhysicsSpringTypeHandler, 
 		0, 
 		NULL, 
@@ -58,8 +81,17 @@ void RegisterHandles()
 		NULL);
 
 	/* Register the type with default security permissions */
-	g_IPhysicsConstraintType = g_pHandleSys->CreateType("IPhysicsConstraint", 
+	g_IPhysicsConstraintType = g_pHandleSys->CreateType("PhysicsConstraint", 
 		&g_IPhysicsConstraintTypeHandler, 
+		0, 
+		NULL, 
+		NULL, 
+		myself->GetIdentity(), 
+		NULL);
+
+	/* Register the type with default security permissions */
+	g_IPhysicsConstraintType = g_pHandleSys->CreateType("PhysicsConstraintGroup", 
+		&g_IPhysicsConstraintGroupTypeHandler, 
 		0, 
 		NULL, 
 		NULL, 
@@ -72,4 +104,5 @@ void UnregisterHandles()
 	/* Remove the type on shutdown */
 	g_pHandleSys->RemoveType(g_IPhysicsSpringType, myself->GetIdentity());
 	g_pHandleSys->RemoveType(g_IPhysicsConstraintType, myself->GetIdentity());
+	g_pHandleSys->RemoveType(g_IPhysicsConstraintGroupType, myself->GetIdentity());
 }

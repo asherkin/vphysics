@@ -43,8 +43,13 @@ public:
 	void OnHandleDestroy(HandleType_t type, void *object);
 };
 
-
 class IPhysicsConstraintTypeHandler : public IHandleTypeDispatch
+{
+public:
+	void OnHandleDestroy(HandleType_t type, void *object);
+};
+
+class IPhysicsConstraintGroupTypeHandler : public IHandleTypeDispatch
 {
 public:
 	void OnHandleDestroy(HandleType_t type, void *object);
@@ -52,8 +57,10 @@ public:
 
 extern HandleType_t g_IPhysicsSpringType;
 extern HandleType_t g_IPhysicsConstraintType;
+extern HandleType_t g_IPhysicsConstraintGroupType;
 
 extern IPhysicsSpringTypeHandler g_IPhysicsSpringTypeHandler;
 extern IPhysicsConstraintTypeHandler g_IPhysicsConstraintTypeHandler;
+extern IPhysicsConstraintGroupTypeHandler g_IPhysicsConstraintGroupTypeHandler;
 
 #endif //_INCLUDE_SDKTOOLS_PHYSHANDLES_H_

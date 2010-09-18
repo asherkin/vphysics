@@ -737,20 +737,38 @@ static cell_t CreateFixedConstraint(IPluginContext *pContext, const cell_t *para
 		return pContext->ThrowNativeError("IPhysicsObject for entity %d null.", params[2]);
 	}
 
+	IPhysicsConstraintGroup *pConstraintGroup = NULL;
+
+	Handle_t constraintGroupHandle = static_cast<Handle_t>(params[3]);
+	if (constraintGroupHandle != BAD_HANDLE)
+	{
+		HandleSecurity sec;
+ 
+		/* Build our security descriptor */
+		sec.pOwner = NULL;	/* Not needed, owner access is not checked */
+		sec.pIdentity = myself->GetIdentity();	/* But only this extension can read */
+ 
+		/* Attempt to read the given handle as our type, using our security info.
+		 * Note that we read the pointer directly in with a little cast.
+		 * This type of cast is safe since sizeof(void **) == sizeof(void *) == sizeof(T *) in almost all cases.
+		 */
+		g_pHandleSys->ReadHandle(constraintGroupHandle, g_IPhysicsConstraintGroupType, &sec, (void **)&pConstraintGroup);
+	}
+
 	constraint_fixedparams_t fixedconstraint;
 
 	fixedconstraint.InitWithCurrentObjectState(pReferenceObject, pAttachedObject);
 
-	fixedconstraint.constraint.strength = sp_ctof(params[3]);
-	fixedconstraint.constraint.forceLimit = sp_ctof(params[4]);
-	fixedconstraint.constraint.torqueLimit = sp_ctof(params[5]);
+	fixedconstraint.constraint.strength = sp_ctof(params[4]);
+	fixedconstraint.constraint.forceLimit = sp_ctof(params[5]);
+	fixedconstraint.constraint.torqueLimit = sp_ctof(params[6]);
 
-	fixedconstraint.constraint.bodyMassScale[0] = sp_ctof(params[6]);
-	fixedconstraint.constraint.bodyMassScale[1] = sp_ctof(params[7]);
+	fixedconstraint.constraint.bodyMassScale[0] = sp_ctof(params[7]);
+	fixedconstraint.constraint.bodyMassScale[1] = sp_ctof(params[8]);
 
-	fixedconstraint.constraint.isActive = (params[8] > 0)?true:false;
+	fixedconstraint.constraint.isActive = (params[9] > 0)?true:false;
 
-	IPhysicsConstraint *pConstraint = pPhysicsEnvironment->CreateFixedConstraint(pReferenceObject, pAttachedObject, NULL, fixedconstraint);
+	IPhysicsConstraint *pConstraint = pPhysicsEnvironment->CreateFixedConstraint(pReferenceObject, pAttachedObject, pConstraintGroup, fixedconstraint);
 
 	if (pConstraint)
 	{
@@ -792,31 +810,49 @@ static cell_t CreateLengthConstraint(IPluginContext *pContext, const cell_t *par
 		return pContext->ThrowNativeError("IPhysicsObject for entity %d null.", params[2]);
 	}
 
+	IPhysicsConstraintGroup *pConstraintGroup = NULL;
+
+	Handle_t constraintGroupHandle = static_cast<Handle_t>(params[3]);
+	if (constraintGroupHandle != BAD_HANDLE)
+	{
+		HandleSecurity sec;
+ 
+		/* Build our security descriptor */
+		sec.pOwner = NULL;	/* Not needed, owner access is not checked */
+		sec.pIdentity = myself->GetIdentity();	/* But only this extension can read */
+ 
+		/* Attempt to read the given handle as our type, using our security info.
+		 * Note that we read the pointer directly in with a little cast.
+		 * This type of cast is safe since sizeof(void **) == sizeof(void *) == sizeof(T *) in almost all cases.
+		 */
+		g_pHandleSys->ReadHandle(constraintGroupHandle, g_IPhysicsConstraintGroupType, &sec, (void **)&pConstraintGroup);
+	}
+
 	constraint_lengthparams_t lengthconstraint;
 
 	cell_t *refPosition;
-	pContext->LocalToPhysAddr(params[3], &refPosition);
+	pContext->LocalToPhysAddr(params[4], &refPosition);
 	//pReferenceObject->WorldToLocal(&lengthconstraint.objectPosition[0], Vector(sp_ctof(refPosition[0]), sp_ctof(refPosition[1]), sp_ctof(refPosition[2])));
 	lengthconstraint.objectPosition[0] = Vector(sp_ctof(refPosition[0]), sp_ctof(refPosition[1]), sp_ctof(refPosition[2]));
 
 	cell_t *attachedPosition;
-	pContext->LocalToPhysAddr(params[4], &attachedPosition);
+	pContext->LocalToPhysAddr(params[5], &attachedPosition);
 	//pAttachedObject->WorldToLocal(&lengthconstraint.objectPosition[1], Vector(sp_ctof(attachedPosition[0]), sp_ctof(attachedPosition[1]), sp_ctof(attachedPosition[2])));
 	lengthconstraint.objectPosition[1] = Vector(sp_ctof(attachedPosition[0]), sp_ctof(attachedPosition[1]), sp_ctof(attachedPosition[2]));
 
-	lengthconstraint.totalLength = sp_ctof(params[5]);
-	lengthconstraint.minLength = sp_ctof(params[6]);
+	lengthconstraint.totalLength = sp_ctof(params[6]);
+	lengthconstraint.minLength = sp_ctof(params[7]);
 
-	lengthconstraint.constraint.strength = sp_ctof(params[7]);
-	lengthconstraint.constraint.forceLimit = sp_ctof(params[8]);
-	lengthconstraint.constraint.torqueLimit = sp_ctof(params[9]);
+	lengthconstraint.constraint.strength = sp_ctof(params[8]);
+	lengthconstraint.constraint.forceLimit = sp_ctof(params[9]);
+	lengthconstraint.constraint.torqueLimit = sp_ctof(params[10]);
 
-	lengthconstraint.constraint.bodyMassScale[0] = sp_ctof(params[10]);
-	lengthconstraint.constraint.bodyMassScale[1] = sp_ctof(params[11]);
+	lengthconstraint.constraint.bodyMassScale[0] = sp_ctof(params[11]);
+	lengthconstraint.constraint.bodyMassScale[1] = sp_ctof(params[12]);
 
-	lengthconstraint.constraint.isActive = (params[12] > 0)?true:false;
+	lengthconstraint.constraint.isActive = (params[13] > 0)?true:false;
 
-	IPhysicsConstraint *pConstraint = pPhysicsEnvironment->CreateLengthConstraint(pReferenceObject, pAttachedObject, NULL, lengthconstraint);
+	IPhysicsConstraint *pConstraint = pPhysicsEnvironment->CreateLengthConstraint(pReferenceObject, pAttachedObject, pConstraintGroup, lengthconstraint);
 
 	if (pConstraint)
 	{
@@ -858,36 +894,90 @@ static cell_t CreateHingeConstraint(IPluginContext *pContext, const cell_t *para
 		return pContext->ThrowNativeError("IPhysicsObject for entity %d null.", params[2]);
 	}
 
+	IPhysicsConstraintGroup *pConstraintGroup = NULL;
+
+	Handle_t constraintGroupHandle = static_cast<Handle_t>(params[3]);
+	if (constraintGroupHandle != BAD_HANDLE)
+	{
+		HandleSecurity sec;
+ 
+		/* Build our security descriptor */
+		sec.pOwner = NULL;	/* Not needed, owner access is not checked */
+		sec.pIdentity = myself->GetIdentity();	/* But only this extension can read */
+ 
+		/* Attempt to read the given handle as our type, using our security info.
+		 * Note that we read the pointer directly in with a little cast.
+		 * This type of cast is safe since sizeof(void **) == sizeof(void *) == sizeof(T *) in almost all cases.
+		 */
+		g_pHandleSys->ReadHandle(constraintGroupHandle, g_IPhysicsConstraintGroupType, &sec, (void **)&pConstraintGroup);
+	}
+
 	constraint_hingeparams_t hingeconstraint;
 
 	cell_t *worldPosition;
-	pContext->LocalToPhysAddr(params[3], &worldPosition);
+	pContext->LocalToPhysAddr(params[4], &worldPosition);
 	hingeconstraint.worldPosition = Vector(sp_ctof(worldPosition[0]), sp_ctof(worldPosition[1]), sp_ctof(worldPosition[2]));
 
 	cell_t *worldAxisDirection;
-	pContext->LocalToPhysAddr(params[4], &worldAxisDirection);
+	pContext->LocalToPhysAddr(params[5], &worldAxisDirection);
 	hingeconstraint.worldAxisDirection = Vector(sp_ctof(worldAxisDirection[0]), sp_ctof(worldAxisDirection[1]), sp_ctof(worldAxisDirection[2]));
 
-	hingeconstraint.hingeAxis.minRotation = sp_ctof(params[5]);
-	hingeconstraint.hingeAxis.maxRotation = sp_ctof(params[6]);
-	hingeconstraint.hingeAxis.angularVelocity = sp_ctof(params[7]);
-	hingeconstraint.hingeAxis.torque = sp_ctof(params[8]);
+	hingeconstraint.hingeAxis.minRotation = sp_ctof(params[6]);
+	hingeconstraint.hingeAxis.maxRotation = sp_ctof(params[7]);
+	hingeconstraint.hingeAxis.angularVelocity = sp_ctof(params[8]);
+	hingeconstraint.hingeAxis.torque = sp_ctof(params[9]);
 
-	hingeconstraint.constraint.strength = sp_ctof(params[9]);
-	hingeconstraint.constraint.forceLimit = sp_ctof(params[10]);
-	hingeconstraint.constraint.torqueLimit = sp_ctof(params[11]);
+	hingeconstraint.constraint.strength = sp_ctof(params[10]);
+	hingeconstraint.constraint.forceLimit = sp_ctof(params[11]);
+	hingeconstraint.constraint.torqueLimit = sp_ctof(params[12]);
 
-	hingeconstraint.constraint.bodyMassScale[0] = sp_ctof(params[12]);
-	hingeconstraint.constraint.bodyMassScale[1] = sp_ctof(params[13]);
+	hingeconstraint.constraint.bodyMassScale[0] = sp_ctof(params[13]);
+	hingeconstraint.constraint.bodyMassScale[1] = sp_ctof(params[14]);
 
-	hingeconstraint.constraint.isActive = (params[14] > 0)?true:false;
+	hingeconstraint.constraint.isActive = (params[15] > 0)?true:false;
 
-	IPhysicsConstraint *pConstraint = pPhysicsEnvironment->CreateHingeConstraint(pReferenceObject, pAttachedObject, NULL, hingeconstraint);
+	IPhysicsConstraint *pConstraint = pPhysicsEnvironment->CreateHingeConstraint(pReferenceObject, pAttachedObject, pConstraintGroup, hingeconstraint);
 
 	if (pConstraint)
 	{
 		return g_pHandleSys->CreateHandle(g_IPhysicsConstraintType, 
 			pConstraint, 
+			pContext->GetIdentity(), 
+			myself->GetIdentity(), 
+			NULL);
+	} else {
+		return BAD_HANDLE;
+	}
+}
+
+///////////////////////////////////////////
+
+static cell_t CreateConstraintGroup(IPluginContext *pContext, const cell_t *params)
+{
+	if (!iphysics)
+	{
+		return pContext->ThrowNativeError("IPhysics null.");
+	}
+
+	IPhysicsEnvironment *pPhysicsEnvironment = iphysics->GetActiveEnvironmentByIndex(0);
+
+	if (!pPhysicsEnvironment)
+	{
+		return pContext->ThrowNativeError("IPhysicsEnvironment null.");
+	}
+
+	constraint_groupparams_t constraintgroup;
+
+	constraintgroup.additionalIterations = params[1];
+	constraintgroup.minErrorTicks = params[2];
+	constraintgroup.errorTolerance = sp_ctof(params[3]);
+
+	IPhysicsConstraintGroup *pConstraintGroup = pPhysicsEnvironment->CreateConstraintGroup(constraintgroup);
+
+	if (pConstraintGroup)
+	{
+		return g_pHandleSys->CreateHandle(g_IPhysicsConstraintGroupType, 
+			pConstraintGroup, 
 			pContext->GetIdentity(), 
 			myself->GetIdentity(), 
 			NULL);
@@ -968,4 +1058,5 @@ BEGIN_NATIVES(Phys)
 	ADD_NATIVE(Phys, CreateLengthConstraint)
 	ADD_NATIVE(Phys, CreateHingeConstraint)
 	ADD_NATIVE(Phys, SetVelocity)
+	ADD_NATIVE(Phys, CreateConstraintGroup)
 END_NATIVES()
