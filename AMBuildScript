@@ -4,8 +4,7 @@ import sys
 import ambuild.command as command
 from ambuild.command import SymlinkCommand
 
-vboxhack = 1
-
+vboxhack = 0
 
 class SM:
 	def __init__(self):
@@ -34,8 +33,8 @@ class SM:
 
 			#Detect variables
 			envvars = { 'MMSOURCE18':    'mmsource-1.8',
-									'HL2SDKOBVALVE': 'hl2sdk-ob-valve',
-									'SOURCEMOD13':        'sourcemod-1.3'
+						'HL2SDKOBVALVE': 'hl2sdk-ob-valve',
+						'SOURCEMOD13':   'sourcemod-1.3'
 			}
 
 			if AMBuild.target['platform'] != 'darwin':
@@ -234,7 +233,7 @@ class SM:
 			else:
 				staticLibs = os.path.join(sdkPath, 'lib', 'linux')
 			workFolder = os.path.join(AMBuild.outputFolder, job.workFolder)
-			if sdk == 'ep2v' or sdk == 'l4d2':
+			if sdk in ['ep2v', 'l4d', 'l4d2']:
 				for i in ['tier1_i486.a', 'mathlib_i486.a', 'libvstdlib.so', 'libtier0.so']:
 					link = os.path.join(workFolder, i)
 					target = os.path.join(staticLibs, i)
@@ -328,7 +327,7 @@ class SM:
 		if not noLink:
 			if AMBuild.target['platform'] == 'linux':
 				compiler['POSTLINKFLAGS'][0:0] = ['-lm']
-				if sdk == 'ep2v' or sdk == 'l4d2':
+				if sdk in ['ep2v', 'l4d', 'l4d2']:
 					compiler['POSTLINKFLAGS'][0:0] = ['libtier0.so']
 					compiler['POSTLINKFLAGS'][0:0] = ['libvstdlib.so']
 				else:
