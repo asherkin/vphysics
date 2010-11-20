@@ -2,3 +2,5 @@ glob:extension/msvc10/sdktools.opensdf
 glob:extension/msvc10/sdktools.sdf
 glob:extension/msvc10/sdktools.vcxproj.user
 glob:extension/version.aps
+glob:vphys_bins.zip
+glob:build.py
