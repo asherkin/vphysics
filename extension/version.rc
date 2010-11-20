@@ -24,6 +24,10 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // Version
 //
 
+#ifndef SM_GENERATED_BUILD
+#define BINARY_NAME "vphysics.ext.dll\0"
+#endif
+
 VS_VERSION_INFO VERSIONINFO
  FILEVERSION 0,1,0,0
  PRODUCTVERSION 0,1,0,0
@@ -46,7 +50,7 @@ BEGIN
             VALUE "FileVersion", "0.1.0.0"
             VALUE "InternalName", "SourceMod VPhysics Extension"
             VALUE "LegalCopyright", "Copyright (c) 2010, Asher Baker"
-            VALUE "OriginalFilename", "BINARY_NAME"
+            VALUE "OriginalFilename", BINARY_NAME
             VALUE "ProductName", "SourceMod VPhysics Extension"
             VALUE "ProductVersion", "0.1.0.0"
         END

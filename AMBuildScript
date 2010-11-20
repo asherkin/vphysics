@@ -348,6 +348,7 @@ globals = {
 
 FileList = [
 		['extension', 'AMBuilder'],
+		['PackageScript']
 	]
 
 for parts in FileList:
