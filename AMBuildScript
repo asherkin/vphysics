@@ -343,7 +343,7 @@ globals = {
 	'SM': sm
 }
 
-#AMBuild.Include(os.path.join('tools', 'buildbot', 'Versioning'), globals)
+AMBuild.Include('Versioning', globals)
 
 FileList = [
 		['extension', 'AMBuilder'],

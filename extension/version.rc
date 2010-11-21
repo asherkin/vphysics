@@ -30,11 +30,11 @@ BEGIN
         BEGIN
             VALUE "Comments", "VPhysics Extension"
             VALUE "FileDescription", "SourceMod VPhysics Extension"
-            VALUE "FileVersion", SM_FULL_VERSION
-            VALUE "InternalName", "SourceMod VPhysics Extension"
+            VALUE "FileVersion", SM_BUILD_UNIQUEID
+            VALUE "InternalName", "VPhysics"
             VALUE "LegalCopyright", "Copyright (c) 2010, Asher Baker"
             VALUE "OriginalFilename", BINARY_NAME
-            VALUE "ProductName", "SourceMod VPhysics Extension"
+            VALUE "ProductName", "VPhysics Extension"
             VALUE "ProductVersion", SM_FULL_VERSION
         END
     END
