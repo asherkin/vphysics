@@ -47,7 +47,7 @@
 #define SMEXT_CONF_URL			"http://limetech.org/"
 #define SMEXT_CONF_LOGTAG		"VPHYS"
 #define SMEXT_CONF_LICENSE		"GPL"
-#define SMEXT_CONF_DATESTRING	""
+#define SMEXT_CONF_DATESTRING	__DATE__ " - " __TIME__
 
 /** 
  * @brief Exposes plugin's main interface.
