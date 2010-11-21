@@ -47,10 +47,10 @@
     <ClInclude Include="..\extension.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\resource.h">
+    <ClInclude Include="..\physhandles.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\physhandles.h">
+    <ClInclude Include="..\version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

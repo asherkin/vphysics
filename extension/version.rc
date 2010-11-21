@@ -1,4 +1,3 @@
-#include "resource.h"
 #include "winres.h"
 
 #include <version.h>
@@ -6,6 +5,7 @@
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
+#endif
 
 #ifndef SM_GENERATED_BUILD
 #define BINARY_NAME "vphysics.ext.dll\0"

@@ -12,6 +12,7 @@
 #else
 
 #ifndef SM_GENERATED_BUILD
+#undef BINARY_NAME
 #define BINARY_NAME "vphysics.ext.dll\0"
 #endif
 
@@ -20,6 +21,7 @@
 #define SM_VERSION			"1.0.0"
 #define SM_FULL_VERSION		SM_VERSION SM_BUILD_TAG
 #define SM_FILE_VERSION		1,0,0,0
+
 #endif
 
 #endif /* _INCLUDE_VERSION_INFORMATION_H_ */
