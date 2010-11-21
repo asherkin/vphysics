@@ -32,6 +32,8 @@
 #ifndef _INCLUDE_SOURCEMOD_EXTENSION_CONFIG_H_
 #define _INCLUDE_SOURCEMOD_EXTENSION_CONFIG_H_
 
+#include version.h
+
 /**
  * @file smsdk_config.h
  * @brief Contains macros for configuring basic extension information.
@@ -40,7 +42,7 @@
 /* Basic information exposed publicly */
 #define SMEXT_CONF_NAME			"VPhysics"
 #define SMEXT_CONF_DESCRIPTION	"Source VPhysics Tools"
-#define SMEXT_CONF_VERSION		""
+#define SMEXT_CONF_VERSION		SM_VERSION
 #define SMEXT_CONF_AUTHOR		"Asher Baker (asherkin)"
 #define SMEXT_CONF_URL			"http://limetech.org/"
 #define SMEXT_CONF_LOGTAG		"VPHYS"

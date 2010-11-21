@@ -86,7 +86,7 @@ bincopies = []
 def AddNormalLibrary(name, dest):
 	dest = os.path.join('addons', 'sourcemod', dest)
 	bincopies.append(CopyFile(os.path.join('..', name, name + osutil.SharedLibSuffix()), dest))
-	pdb_list.append(name + '\\' + name + '.pdb')
+	#pdb_list.append(name + '\\' + name + '.pdb')
 
 def AddHL2Library(name, dest):
 	for i in SM.sdkInfo:
@@ -95,15 +95,15 @@ def AddHL2Library(name, dest):
 			continue
 		AddNormalLibrary(name + '.ext.' + sdk['ext'], dest)
 
-pdb_list = []
+#pdb_list = []
 
 AddHL2Library('vphysics', 'extensions')
 
 job.AddCommandGroup(bincopies)
 
-if AMBuild.target['platform'] == 'windows':
-	pdblog = open(os.path.join(AMBuild.outputFolder, 'pdblog.txt'), 'wt')
-	for pdb in pdb_list:
-		pdblog.write(pdb + '\n')
-	pdblog.close()
+#if AMBuild.target['platform'] == 'windows':
+#	pdblog = open(os.path.join(AMBuild.outputFolder, 'pdblog.txt'), 'wt')
+#	for pdb in pdb_list:
+#		pdblog.write(pdb + '\n')
+#	pdblog.close()
 
