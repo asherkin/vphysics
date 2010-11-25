@@ -53,26 +53,26 @@ else
     system("zip -r $filename addons");
 }
 
-my ($major,$minor) = ($version =~ /^(\d+)\.(\d+)/);
-$ftp_path .= "/$major.$minor";
+#my ($major,$minor) = ($version =~ /^(\d+)\.(\d+)/);
+#$ftp_path .= "/$major.$minor";
 
 my ($ftp);
 
 $ftp = Net::FTP->new($ftp_host, Debug => 0) 
-    or die "Cannot connect to host $ftp_host: $@";
+    or die "Cannot connect to host $ftp_host : $@";
 
 $ftp->login($ftp_user, $ftp_pass)
-    or die "Cannot connect to host $ftp_host as $ftp_user: " . $ftp->message . "\n";
+    or die "Cannot connect to host $ftp_host as $ftp_user : " . $ftp->message . "\n";
 
 if ($ftp_path ne '')
 {
     $ftp->cwd($ftp_path)
-        or die "Cannot change to folder $ftp_path: " . $ftp->message . "\n";
+        or die "Cannot change to folder $ftp_path : " . $ftp->message . "\n";
 }
 
 $ftp->binary();
 $ftp->put($filename)
-    or die "Cannot drop file $filename ($ftp_path): " . $ftp->message . "\n";
+    or die "Cannot drop file $filename ($ftp_path) : " . $ftp->message . "\n";
 
 $ftp->close();
 
