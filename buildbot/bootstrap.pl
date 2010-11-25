@@ -55,6 +55,7 @@ if ($reconf) {
 	opendir(IMD, $dirtoget) || die("Cannot open directory");
 	my @thefiles = readdir(IMD);
 	closedir(IMD);
+	my ($f);
 	foreach $f (@thefiles)
 	{ 
 		print "$f\n";
