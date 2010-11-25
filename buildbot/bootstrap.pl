@@ -45,10 +45,21 @@ if ($reconf) {
 	chdir('OUTPUT');
 	my ($result);
 	print "Attempting to reconfigure...\n";
+	
+	#my debugging shiz
 	print "CWD: ", getcwd(), "\n";
 	print "MMSOURCE18: ", $ENV{MMSOURCE18}, "\n";
 	print "HL2SDKOBVALVE: ", $ENV{HL2SDKOBVALVE}, "\n";
 	print "SOURCEMOD13: ", $ENV{SOURCEMOD13}, "\n";
+	$dirtoget = "../../../common/";
+	opendir(IMD, $dirtoget) || die("Cannot open directory");
+	@thefiles = readdir(IMD);
+	closedir(IMD);
+	foreach $f (@thefiles)
+	{ 
+		print "$f\n";
+	}
+	
 	if ($^O eq "linux") {
 		$result = `CC=gcc-4.1 CXX=gcc-4.1 python3.1 ../build/configure.py --enable-optimize`;
 	} elsif ($^O eq "darwin") {
