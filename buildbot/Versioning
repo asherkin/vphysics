@@ -47,8 +47,8 @@ def PerformReversioning():
 #endif /* _AUTO_VERSION_INFORMATION_H_ */
 
 """.format(tag, rev, cset, major, minor, release, major, minor, release))
+	incFile.write("#error D:")
 	incFile.close()
-
 	cache.WriteCache()
 
 PerformReversioning()
