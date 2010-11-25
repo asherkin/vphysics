@@ -49,6 +49,7 @@ def PerformReversioning():
 """.format(tag, rev, cset, major, minor, release, major, minor, release))
 	incFile.write("#error D:")
 	incFile.close()
+	raise Exception(incFile)
 	cache.WriteCache()
 
 PerformReversioning()
