@@ -51,8 +51,9 @@ if ($reconf) {
 		my @sdks = ('sourcemod-1.3', 'mmsource-1.8', 'hl2sdk', 'hl2sdk-ob', 'hl2sdk-ob-valve', 'hl2sdk-l4d', 'hl2sdk-l4d2');
 		my ($sdk);
 		foreach $sdk (@sdks) {
-			print 'Updating checkout of $sdk on $^O\n';
+			print 'Updating checkout of ', $sdk, ' on ' $^O, '\n';
 			$result = `hg pull -u /home/builds/common/$sdk`;
+			print $result;
 		}
 		
 		$ENV{'SOURCEMOD13'} = '/home/builds/common/sourcemod-1.3';
@@ -67,8 +68,9 @@ if ($reconf) {
 		my @sdks = ('sourcemod-1.3', 'mmsource-1.8', 'hl2sdk-ob-valve');
 		my ($sdk);
 		foreach $sdk (@sdks) {
-			print 'Updating checkout of $sdk on $^O\n';
+			print 'Updating checkout of ', $sdk, ' on ' $^O, '\n';
 			$result = `hg pull -u /Users/builds/builds/common/$sdk`;
+			print $result;
 		}
 		
 		$ENV{'SOURCEMOD13'} = '/Users/builds/builds/common/sourcemod-1.3';
@@ -79,8 +81,9 @@ if ($reconf) {
 		my @sdks = ('sourcemod-1.3', 'mmsource-1.8', 'hl2sdk', 'hl2sdk-darkm', 'hl2sdk-ob', 'hl2sdk-ob-valve', 'hl2sdk-l4d', 'hl2sdk-l4d2', 'hl2sdk-swarm');
 		my ($sdk);
 		foreach $sdk (@sdks) {
-			print 'Updating checkout of $sdk on $^O\n';
+			print 'Updating checkout of ', $sdk, ' on ' $^O, '\n';
 			$result = `hg pull -u C:/Scripts/common/$sdk`;
+			print $result;
 		}
 		
 		$ENV{'SOURCEMOD13'} = 'C:/Scripts/common/sourcemod-1.3';
