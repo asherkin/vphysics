@@ -46,6 +46,11 @@ if ($reconf) {
 	my ($result);
 	print "Attempting to reconfigure...\n";
 	
+	if ($^O eq "darwin") {
+		$result = `hg clone http://hg.alliedmods.net/releases/sourcemod-1.3/ /Users/builds/builds/common/sourcemod-1.3`;
+		die("lol clone'd");
+	}
+	
 	#update and configure shiz
     if ($^O eq "linux") {
 		my @sdks = ('sourcemod-1.3', 'mmsource-1.8', 'hl2sdk', 'hl2sdk-ob', 'hl2sdk-ob-valve', 'hl2sdk-l4d', 'hl2sdk-l4d2');
