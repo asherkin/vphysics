@@ -17,13 +17,10 @@ chdir($path);
 
 require 'helpers.pm';
 
-#Switch to the output folder.
-chdir(Build::PathFormat('../../OUTPUT/package'));
-
 my ($version);
 
-$version = Build::ProductVersion(Build::PathFormat('../build/buildbot/product.version'));
-$version .= '-hg' . Build::HgRevNum('../build');
+$version = Build::ProductVersion(Build::PathFormat('buildbot/product.version'));
+$version .= '-hg' . Build::HgRevNum('.');
 
 # Append OS to package version
 if ($^O eq "darwin")
@@ -38,6 +35,9 @@ else
 {
     $version .= '-' . $^O;
 }
+
+#Switch to the output folder.
+chdir(Build::PathFormat('../../OUTPUT/package'));
 
 my ($filename);
 $filename = 'vphysics-' . $version;
