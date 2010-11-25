@@ -46,21 +46,59 @@ if ($reconf) {
 	my ($result);
 	print "Attempting to reconfigure...\n";
 	
+	#update and configure shiz
+    if ($^O eq "linux") {
+		my @sdks = ('sourcemod-1.3', 'mmsource-1.8', 'hl2sdk', 'hl2sdk-ob', 'hl2sdk-ob-valve', 'hl2sdk-l4d', 'hl2sdk-l4d2');
+		my ($sdk);
+		foreach $sdk (@sdks) {
+			$result = `hg pull -u /home/builds/common/$sdk`;
+		}
+		
+		$ENV{SOURCEMOD13} = '/home/builds/common/sourcemod-1.3';
+		$ENV{MMSOURCE18} = '/home/builds/common/mmsource-1.8';
+		
+		$ENV{HL2SDK} = '/home/builds/common/hl2sdk';
+		$ENV{HL2SDKOB} = '/home/builds/common/hl2sdk-ob';
+		$ENV{HL2SDKOBVALVE} = '/home/builds/common/hl2sdk-ob-valve';
+		$ENV{HL2SDKL4D} = '/home/builds/common/hl2sdk-l4d';
+		$ENV{HL2SDKL4D2} = '/home/builds/common/hl2sdk-l4d2';
+	} elsif ($^O eq "darwin") {
+		my @sdks = ('sourcemod-1.3', 'mmsource-1.8', 'hl2sdk-ob-valve');
+		my ($sdk);
+		foreach $sdk (@sdks) {
+			$result = `hg pull -u /Users/builds/builds/common/$sdk`;
+		}
+		
+		$ENV{SOURCEMOD13} = '/Users/builds/builds/common/sourcemod-1.3';
+		$ENV{MMSOURCE18} = '/Users/builds/builds/common/mmsource-1.8';
+		
+		$ENV{HL2SDKOBVALVE} = '/Users/builds/builds/common/hl2sdk-ob-valve';
+	} else {
+		my @sdks = ('sourcemod-1.3', 'mmsource-1.8', 'hl2sdk', 'hl2sdk-darkm', 'hl2sdk-ob', 'hl2sdk-ob-valve', 'hl2sdk-l4d', 'hl2sdk-l4d2', 'hl2sdk-swarm');
+		my ($sdk);
+		foreach $sdk (@sdks) {
+			$result = `hg pull -u C:/Scripts/common/$sdk`;
+		}
+		
+		$ENV{SOURCEMOD13} = 'C:/Scripts/common/sourcemod-1.3';
+		$ENV{MMSOURCE18} = 'C:/Scripts/common/mmsource-1.8';
+		
+		$ENV{HL2SDK} = 'C:/Scripts/common/hl2sdk';
+		$ENV{HL2SDK-DARKM} = 'C:/Scripts/common/hl2sdk-darkm';
+		$ENV{HL2SDKOB} = 'C:/Scripts/common/hl2sdk-ob';
+		$ENV{HL2SDKOBVALVE} = 'C:/Scripts/common/hl2sdk-ob-valve';
+		$ENV{HL2SDKL4D} = 'C:/Scripts/common/hl2sdk-l4d';
+		$ENV{HL2SDKL4D2} = 'C:/Scripts/common/hl2sdk-l4d2';
+		$ENV{HL2SDK-SWARM} = 'C:/Scripts/common/hl2sdk-swarm';
+	}
+	
 	#my debugging shiz
 	print "CWD: ", getcwd(), "\n";
 	print "MMSOURCE18: ", $ENV{MMSOURCE18}, "\n";
 	print "HL2SDKOBVALVE: ", $ENV{HL2SDKOBVALVE}, "\n";
 	print "SOURCEMOD13: ", $ENV{SOURCEMOD13}, "\n";
-	my $dirtoget = "../../../common/";
-	opendir(IMD, $dirtoget) || die("Cannot open directory");
-	my @thefiles = readdir(IMD);
-	closedir(IMD);
-	my ($f);
-	foreach $f (@thefiles)
-	{ 
-		print "$f\n";
-	}
 	
+	#configure AMBuild
 	if ($^O eq "linux") {
 		$result = `CC=gcc-4.1 CXX=gcc-4.1 python3.1 ../build/configure.py --enable-optimize`;
 	} elsif ($^O eq "darwin") {
