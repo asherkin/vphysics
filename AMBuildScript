@@ -343,11 +343,11 @@ globals = {
 	'SM': sm
 }
 
-AMBuild.Include('Versioning', globals)
+AMBuild.Include(os.path.join('buildbot', 'Versioning'), globals)
 
 FileList = [
 		['extension', 'AMBuilder'],
-		['PackageScript']
+		['buildbot', 'PackageScript']
 	]
 
 for parts in FileList:
