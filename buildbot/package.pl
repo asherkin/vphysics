@@ -18,12 +18,12 @@ chdir($path);
 require 'helpers.pm';
 
 #Switch to the output folder.
-chdir(Build::PathFormat('../../../OUTPUT/package'));
+chdir(Build::PathFormat('../../OUTPUT/package'));
 
 my ($version);
 
-$version = Build::ProductVersion(Build::PathFormat('../../build/buildbot/product.version'));
-$version .= '-hg' . Build::HgRevNum('../../build');
+$version = Build::ProductVersion(Build::PathFormat('../build/buildbot/product.version'));
+$version .= '-hg' . Build::HgRevNum('../build');
 
 # Append OS to package version
 if ($^O eq "darwin")
