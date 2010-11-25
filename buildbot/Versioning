@@ -32,7 +32,7 @@ def PerformReversioning():
 		raise Exception('Could not detremine product version')
 	major, minor, release, tag = m.groups()
 
-	incFolder = os.path.join(AMBuild.outputFolder, 'extension')
+	incFolder = os.path.join(AMBuild.sourceFolder, 'extension')
 	incFile = open(os.path.join(incFolder, 'version_auto.h'), 'w')
 	incFile.write("""
 #ifndef _AUTO_VERSION_INFORMATION_H_
@@ -47,9 +47,7 @@ def PerformReversioning():
 #endif /* _AUTO_VERSION_INFORMATION_H_ */
 
 """.format(tag, rev, cset, major, minor, release, major, minor, release))
-	incFile.write("#error D:")
 	incFile.close()
-	raise Exception(incFile)
 	cache.WriteCache()
 
 PerformReversioning()
