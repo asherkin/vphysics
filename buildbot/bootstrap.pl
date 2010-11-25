@@ -45,7 +45,10 @@ if ($reconf) {
 	chdir('OUTPUT');
 	my ($result);
 	print "Attempting to reconfigure...\n";
-	print getcwd();
+	print "CWD: " + getcwd() + "\n";
+	print "MMSOURCE18: " + $ENV{MMSOURCE18} + "\n";
+	print "HL2SDKOBVALVE: " + $ENV{MMSOURCE18} + "\n";
+	print "SOURCEMOD13: " + $ENV{MMSOURCE18} + "\n";
 	if ($^O eq "linux") {
 		$result = `CC=gcc-4.1 CXX=gcc-4.1 python3.1 ../build/configure.py --enable-optimize`;
 	} elsif ($^O eq "darwin") {
