@@ -51,9 +51,9 @@ if ($reconf) {
 	print "MMSOURCE18: ", $ENV{MMSOURCE18}, "\n";
 	print "HL2SDKOBVALVE: ", $ENV{HL2SDKOBVALVE}, "\n";
 	print "SOURCEMOD13: ", $ENV{SOURCEMOD13}, "\n";
-	$dirtoget = "../../../common/";
+	my $dirtoget = "../../../common/";
 	opendir(IMD, $dirtoget) || die("Cannot open directory");
-	@thefiles = readdir(IMD);
+	my @thefiles = readdir(IMD);
 	closedir(IMD);
 	foreach $f (@thefiles)
 	{ 
