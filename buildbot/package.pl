@@ -4,7 +4,7 @@ use strict;
 use Cwd;
 use File::Basename;
 use Net::FTP;
-use Net::SFTP;
+use Net::SCP;
 
 my ($ftp_host, $ftp_user, $ftp_pass, $ftp_path);
 
