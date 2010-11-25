@@ -34,7 +34,7 @@ def PerformReversioning():
 
 	incFolder = os.path.join(AMBuild.outputFolder, 'extension')
 	incFile = open(os.path.join(incFolder, 'version_auto.h'), 'w')
-	runner.PrintOut('{0}/{1}'.format(incFolder, 'version_auto.h'))
+	print incFolder
 	incFile.write("""
 #ifndef _AUTO_VERSION_INFORMATION_H_
 #define _AUTO_VERSION_INFORMATION_H_
