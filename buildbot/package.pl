@@ -12,13 +12,9 @@ $ftp_user = $ARGV[1];
 $ftp_pass = $ARGV[2];
 $ftp_path = $ARGV[3];
 
-my ($myself, $path) = fileparse($0);
-chdir($path);
-
 require 'helpers.pm';
 
 my ($version);
-
 $version = Build::ProductVersion(Build::PathFormat('buildbot/product.version'));
 $version .= '-hg' . Build::HgRevNum('.');
 
