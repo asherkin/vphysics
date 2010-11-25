@@ -33,9 +33,8 @@ def PerformReversioning():
 	major, minor, release, tag = m.groups()
 
 	incFolder = os.path.join(AMBuild.outputFolder, 'extension')
-	if not os.path.isdir(incFolder):
-		os.makedirs(incFolder)
 	incFile = open(os.path.join(incFolder, 'version_auto.h'), 'w')
+	runner.PrintOut('{0}/{1}'.format(incFolder, 'version_auto.h'))
 	incFile.write("""
 #ifndef _AUTO_VERSION_INFORMATION_H_
 #define _AUTO_VERSION_INFORMATION_H_
