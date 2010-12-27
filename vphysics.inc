@@ -20,6 +20,8 @@ native Phys_Wake(entity);
 native Phys_Sleep(entity);
 native Phys_SetMass(entity, Float:mass);
 native Float:Phys_GetMass(entity);
+native Phys_SetMaterialIndex(entity, materialIndex);
+native Phys_GetMaterialIndex(entity);
 native Phys_BecomeHinged(entity, axis);
 native Phys_RemoveHinged(entity);
 native Phys_LocalToWorld(entity, Float:worldPosition[3], const Float:localPosition[3]);

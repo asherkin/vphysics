@@ -256,6 +256,34 @@ static cell_t GetMass(IPluginContext *pContext, const cell_t *params)
 
 ///////////////////////////////////////////
 
+static cell_t SetMaterialIndex(IPluginContext *pContext, const cell_t *params)
+{
+	IPhysicsObject *m_pPhysicsObject = GetPhysicsObject(params[1]);
+
+	if (!m_pPhysicsObject)
+	{
+		return pContext->ThrowNativeError("IPhysicsObject for entity %d null.", params[1]);
+	}
+
+	m_pPhysicsObject->SetMaterialIndex(params[2]);
+
+	return 1;
+}
+
+static cell_t GetMaterialIndex(IPluginContext *pContext, const cell_t *params)
+{
+	IPhysicsObject *m_pPhysicsObject = GetPhysicsObject(params[1]);
+
+	if (!m_pPhysicsObject)
+	{
+		return pContext->ThrowNativeError("IPhysicsObject for entity %d null.", params[1]);
+	}
+
+	return m_pPhysicsObject->GetMaterialIndex();
+}
+
+///////////////////////////////////////////
+
 static cell_t BecomeHinged(IPluginContext *pContext, const cell_t *params)
 {
 	IPhysicsObject *m_pPhysicsObject = GetPhysicsObject(params[1]);
