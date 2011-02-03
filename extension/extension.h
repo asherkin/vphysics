@@ -100,10 +100,9 @@ inline edict_t *PEntityOfEntIndex(int iEntIndex)
 {
 	return engine->PEntityOfEntIndex(iEntIndex);
 }
+#endif //SOURCE_ENGINE >= SE_LEFT4DEAD
 
 int GetEntIndex(CBaseEntity *pEntity);
 CBaseEntity *GetBaseEntity(int iEntIndex);
-
-#endif //SOURCE_ENGINE >= SE_LEFT4DEAD
 
 #endif //_INCLUDE_SOURCEMOD_EXTENSION_PROPER_H_

@@ -161,12 +161,12 @@ int GetEntIndex(CBaseEntity *pEntity)
 	if(!pEdict)
 		return -1;
 
-	return engine->IndexOfEdict(pEdict);
+	return IndexOfEdict(pEdict);
 }
 
 CBaseEntity *GetBaseEntity(int iEntIndex)
 {
-	edict_t *pEdict = engine->PEntityOfEntIndex(iEntIndex);
+	edict_t *pEdict = PEntityOfEntIndex(iEntIndex);
 	if(!pEdict)
 		return NULL;
 
