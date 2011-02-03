@@ -45,7 +45,7 @@
  * @brief Implementation of the SDK Tools extension.
  * Note: Uncomment one of the pre-defined virtual functions in order to use it.
  */
-class SDKTools: public SDKExtension
+class SDKTools: public SDKExtension, public IMetamodListener
 {
 public: //public SDKExtension
 	virtual bool SDK_OnLoad(char *error, size_t maxlength, bool late);
@@ -64,6 +64,13 @@ public:
 	//virtual bool SDK_OnMetamodUnload(char *error, size_t maxlen);
 	//virtual bool SDK_OnMetamodPauseChange(bool paused, char *error, size_t maxlen);
 #endif
+public: //IMetamodListener
+	void OnLevelInit(char const *pMapName, 
+		char const *pMapEntities, 
+		char const *pOldLevel, 
+		char const *pLandmarkName, 
+		bool loadGame, 
+		bool background);
 };
 
 extern SDKTools g_SdkTools;
@@ -93,6 +100,10 @@ inline edict_t *PEntityOfEntIndex(int iEntIndex)
 {
 	return engine->PEntityOfEntIndex(iEntIndex);
 }
+
+int GetEntIndex(CBaseEntity *pEntity);
+CBaseEntity *GetBaseEntity(int iEntIndex);
+
 #endif //SOURCE_ENGINE >= SE_LEFT4DEAD
 
 #endif //_INCLUDE_SOURCEMOD_EXTENSION_PROPER_H_

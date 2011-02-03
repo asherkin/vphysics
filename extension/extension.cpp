@@ -39,11 +39,86 @@
  */
 
 SDKTools g_SdkTools;		/**< Global singleton for extension's main interface */
+
+IServerGameEnts *servergameents = NULL;
 IPhysics *iphysics = NULL;
 
 CGlobalVars *gpGlobals;
 
+IForward *g_pForwardObjectWake = NULL;
+IForward *g_pForwardObjectSleep = NULL;
+
 SMEXT_LINK(&g_SdkTools);
+
+class CPhysicsObjectEvent: public IPhysicsObjectEvent
+{
+public:
+	void ObjectWake(IPhysicsObject *pObject)
+	{
+		CBaseEntity *pEntity = static_cast<CBaseEntity *>(pObject->GetGameData());
+
+		if (!pEntity)
+			return;
+
+		int entIndex = GetEntIndex(pEntity);
+
+		g_pForwardObjectWake->PushCell(entIndex);
+		g_pForwardObjectWake->Execute(NULL);
+	}
+
+	void ObjectSleep(IPhysicsObject *pObject)
+	{
+		CBaseEntity *pEntity = static_cast<CBaseEntity *>(pObject->GetGameData());
+
+		if (!pEntity)
+			return;
+
+		int entIndex = GetEntIndex(pEntity);
+
+		g_pForwardObjectSleep->PushCell(entIndex);
+		g_pForwardObjectSleep->Execute(NULL);
+	}
+} *pPhysicsObjectEvent = new CPhysicsObjectEvent;
+
+#if 0
+class CPhysicsCollisionEvent: public IPhysicsCollisionEvent
+{
+	void PreCollision(vcollisionevent_t *pEvent ) { META_CONPRINT("PreCollision(...)\n"); }
+	void PostCollision(vcollisionevent_t *pEvent ) { META_CONPRINT("PostCollision(...)\n"); }
+
+	void Friction(IPhysicsObject *pObject, float energy, int surfaceProps, int surfacePropsHit, IPhysicsCollisionData *pData ) { META_CONPRINT("Friction(...)\n"); }
+
+	void StartTouch(IPhysicsObject *pObject1, IPhysicsObject *pObject2, IPhysicsCollisionData *pTouchData ) { META_CONPRINT("StartTouch(...)\n"); }
+	void EndTouch(IPhysicsObject *pObject1, IPhysicsObject *pObject2, IPhysicsCollisionData *pTouchData ) { META_CONPRINT("EndTouch(...)\n"); }
+
+	void FluidStartTouch(IPhysicsObject *pObject, IPhysicsFluidController *pFluid ) { META_CONPRINT("FluidStartTouch(...)\n"); }
+	void FluidEndTouch(IPhysicsObject *pObject, IPhysicsFluidController *pFluid ) { META_CONPRINT("FluidEndTouch(...)\n"); }
+
+	void PostSimulationFrame() { /*META_CONPRINT("PostSimulationFrame(...)\n");*/ }
+
+	void ObjectEnterTrigger(IPhysicsObject *pTrigger, IPhysicsObject *pObject ) { META_CONPRINT("ObjectEnterTrigger(...)\n"); }
+	void ObjectLeaveTrigger(IPhysicsObject *pTrigger, IPhysicsObject *pObject ) { META_CONPRINT("ObjectLeaveTrigger(...)\n"); }
+} *pPhysicsCollisionEvent = new CPhysicsCollisionEvent;
+
+class CPhysicsConstraintEvent: public IPhysicsConstraintEvent
+{
+public:
+	void ConstraintBroken( IPhysicsConstraint * ) { META_CONPRINT("ConstraintBroken(...)\n"); }
+} *pPhysicsConstraintEvent = new CPhysicsConstraintEvent;
+#endif
+
+void SDKTools::OnLevelInit(const char *pMapName, char const *pMapEntities, char const *pOldLevel, char const *pLandmarkName, bool loadGame, bool background)
+{
+	IPhysicsEnvironment *pEnv = iphysics->GetActiveEnvironmentByIndex(0);
+	if (pEnv)
+	{
+		//pEnv->SetCollisionEventHandler(pPhysicsCollisionEvent);
+		pEnv->SetObjectEventHandler(pPhysicsObjectEvent);
+		//pEnv->SetConstraintEventHandler(pPhysicsConstraintEvent);
+	} else {
+		g_pSM->LogError(myself, "IPhysicsEnvironment null.");
+	}
+}
 
 bool SDKTools::SDK_OnLoad(char *error, size_t maxlength, bool late)
 {
@@ -51,17 +126,49 @@ bool SDKTools::SDK_OnLoad(char *error, size_t maxlength, bool late)
 
 	RegisterHandles();
 
+	g_pForwardObjectWake = g_pForwards->CreateForward("Phys_OnObjectWake", ET_Ignore, 1, NULL, Param_Cell);
+	g_pForwardObjectSleep = g_pForwards->CreateForward("Phys_OnObjectSleep", ET_Ignore, 1, NULL, Param_Cell);
+
 	return true;
 }
 
 void SDKTools::SDK_OnUnload()
 {
+	g_pForwards->ReleaseForward(g_pForwardObjectWake);
+	g_pForwards->ReleaseForward(g_pForwardObjectSleep);
+
 	UnregisterHandles();
 }
 
 bool SDKTools::SDK_OnMetamodLoad(ISmmAPI *ismm, char *error, size_t maxlen, bool late)
 {
+	GET_V_IFACE_CURRENT(GetServerFactory, servergameents, IServerGameEnts, INTERFACEVERSION_SERVERGAMEENTS);
 	GET_V_IFACE_CURRENT(GetPhysicsFactory, iphysics, IPhysics, VPHYSICS_INTERFACE_VERSION);
-	gpGlobals = ismm->GetCGlobals();
+
+	gpGlobals = g_SMAPI->GetCGlobals();
+
+	g_SMAPI->AddListener(g_PLAPI, this);
+
 	return true;
+}
+
+int GetEntIndex(CBaseEntity *pEntity)
+{
+	if(!pEntity)
+		return -1;
+	edict_t *pEdict = servergameents->BaseEntityToEdict(pEntity);
+
+	if(!pEdict)
+		return -1;
+
+	return engine->IndexOfEdict(pEdict);
+}
+
+CBaseEntity *GetBaseEntity(int iEntIndex)
+{
+	edict_t *pEdict = engine->PEntityOfEntIndex(iEntIndex);
+	if(!pEdict)
+		return NULL;
+
+	return servergameents->EdictToBaseEntity(pEdict);
 }

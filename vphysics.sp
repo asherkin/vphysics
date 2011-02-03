@@ -24,6 +24,16 @@ public OnPluginStart() {
 	RegAdminCmd("sm_punt", Command_Punt, ADMFLAG_CHEATS, "");
 }
 
+public Phys_OnObjectWake(entity)
+{
+	PrintToServer("%d woke up!", entity);
+}
+
+public Phys_OnObjectSleep(entity)
+{
+	PrintToServer("%d went to sleep!", entity);
+}
+
 public Action:Command_Flip(client, args)
 {
 	new Float:gravity[3];
