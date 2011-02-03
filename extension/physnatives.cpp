@@ -331,15 +331,15 @@ static cell_t LocalToWorld(IPluginContext *pContext, const cell_t *params)
 	}
 
 	cell_t *addr;
-	pContext->LocalToPhysAddr(params[2], &addr);
+	pContext->LocalToPhysAddr(params[3], &addr);
 
 	Vector inputVec = Vector(sp_ctof(addr[0]), sp_ctof(addr[1]), sp_ctof(addr[2]));
 	Vector outputVec;
 
-	pObject->LocalToWorld(&inputVec, outputVec);
+	pObject->LocalToWorld(&outputVec, inputVec);
 
 	cell_t *addr2;
-	pContext->LocalToPhysAddr(params[3], &addr2);
+	pContext->LocalToPhysAddr(params[2], &addr2);
 	addr2[0] = sp_ftoc(outputVec.x);
 	addr2[1] = sp_ftoc(outputVec.y);
 	addr2[2] = sp_ftoc(outputVec.z);
@@ -364,15 +364,15 @@ static cell_t WorldToLocal(IPluginContext *pContext, const cell_t *params)
 	}
 
 	cell_t *addr;
-	pContext->LocalToPhysAddr(params[2], &addr);
+	pContext->LocalToPhysAddr(params[3], &addr);
 
 	Vector inputVec = Vector(sp_ctof(addr[0]), sp_ctof(addr[1]), sp_ctof(addr[2]));
 	Vector outputVec;
 
-	pObject->WorldToLocal(&inputVec, outputVec);
+	pObject->WorldToLocal(&outputVec, inputVec);
 
 	cell_t *addr2;
-	pContext->LocalToPhysAddr(params[3], &addr2);
+	pContext->LocalToPhysAddr(params[2], &addr2);
 	addr2[0] = sp_ftoc(outputVec.x);
 	addr2[1] = sp_ftoc(outputVec.y);
 	addr2[2] = sp_ftoc(outputVec.z);
