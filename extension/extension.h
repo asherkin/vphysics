@@ -77,6 +77,7 @@ extern SDKTools g_SdkTools;
 extern CGlobalVars *gpGlobals;
 /* Interfaces from engine or gamedll */
 extern IPhysics *iphysics;
+extern IPhysicsSurfaceProps *surfaceprops;
 extern IServerGameEnts *servergameents;
 
 #if SOURCE_ENGINE >= SE_LEFT4DEAD

@@ -41,7 +41,9 @@
 SDKTools g_SdkTools;		/**< Global singleton for extension's main interface */
 
 IServerGameEnts *servergameents = NULL;
+
 IPhysics *iphysics = NULL;
+IPhysicsSurfaceProps *surfaceprops = NULL;
 
 CGlobalVars *gpGlobals;
 
@@ -143,7 +145,9 @@ void SDKTools::SDK_OnUnload()
 bool SDKTools::SDK_OnMetamodLoad(ISmmAPI *ismm, char *error, size_t maxlen, bool late)
 {
 	GET_V_IFACE_CURRENT(GetServerFactory, servergameents, IServerGameEnts, INTERFACEVERSION_SERVERGAMEENTS);
+
 	GET_V_IFACE_CURRENT(GetPhysicsFactory, iphysics, IPhysics, VPHYSICS_INTERFACE_VERSION);
+	GET_V_IFACE_CURRENT(GetPhysicsFactory, surfaceprops, IPhysicsSurfaceProps, VPHYSICS_SURFACEPROPS_INTERFACE_VERSION);
 
 	gpGlobals = g_SMAPI->GetCGlobals();
 
