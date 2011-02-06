@@ -22,6 +22,9 @@ public OnPluginStart() {
 	RegAdminCmd("sm_flip", Command_Flip, ADMFLAG_CHEATS, "");
 	
 	RegAdminCmd("sm_punt", Command_Punt, ADMFLAG_CHEATS, "");
+	
+	RegAdminCmd("sm_wake", Command_Wake, ADMFLAG_CHEATS, "");
+	RegAdminCmd("sm_sleep", Command_Sleep, ADMFLAG_CHEATS, "");
 }
 
 public Phys_OnObjectWake(entity)
@@ -196,6 +199,24 @@ public Action:Command_Punt(client, args)
 	new ent = GetClientAimTarget(client, false);
 	if (IsValidEntity(ent) && Phys_IsPhysicsObject(ent))
 		Phys_ApplyTorqueCenter(ent, Float:{0.0, 0.0, 10000.0});
+	
+	return Plugin_Handled;
+}
+
+public Action:Command_Wake(client, args)
+{
+	new ent = GetClientAimTarget(client, false);
+	if (IsValidEntity(ent))
+		Phys_Wake(ent);
+	
+	return Plugin_Handled;
+}
+
+public Action:Command_Sleep(client, args)
+{
+	new ent = GetClientAimTarget(client, false);
+	if (IsValidEntity(ent))
+		Phys_Sleep(ent);
 	
 	return Plugin_Handled;
 }

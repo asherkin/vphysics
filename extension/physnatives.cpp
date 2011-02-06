@@ -725,16 +725,7 @@ static cell_t CreateSpring(IPluginContext *pContext, const cell_t *params)
 
 	IPhysicsSpring *pSpring = pPhysicsEnvironment->CreateSpring(pObjectStart, pObjectEnd, &spring);
 
-	if (pSpring)
-	{
-		return g_pHandleSys->CreateHandle(g_IPhysicsSpringType, 
-			pSpring, 
-			pContext->GetIdentity(), 
-			myself->GetIdentity(), 
-			NULL);
-	} else {
-		return BAD_HANDLE;
-	}
+	RETURN_NEW_HANDLE(Spring, pSpring);
 }
 
 static cell_t CreateFixedConstraint(IPluginContext *pContext, const cell_t *params)
@@ -766,22 +757,7 @@ static cell_t CreateFixedConstraint(IPluginContext *pContext, const cell_t *para
 	}
 
 	IPhysicsConstraintGroup *pConstraintGroup = NULL;
-
-	Handle_t constraintGroupHandle = static_cast<Handle_t>(params[3]);
-	if (constraintGroupHandle != BAD_HANDLE)
-	{
-		HandleSecurity sec;
- 
-		/* Build our security descriptor */
-		sec.pOwner = NULL;	/* Not needed, owner access is not checked */
-		sec.pIdentity = myself->GetIdentity();	/* But only this extension can read */
- 
-		/* Attempt to read the given handle as our type, using our security info.
-		 * Note that we read the pointer directly in with a little cast.
-		 * This type of cast is safe since sizeof(void **) == sizeof(void *) == sizeof(T *) in almost all cases.
-		 */
-		g_pHandleSys->ReadHandle(constraintGroupHandle, g_IPhysicsConstraintGroupType, &sec, (void **)&pConstraintGroup);
-	}
+	GET_POINTER_FROM_HANDLE(ConstraintGroup, 3, pConstraintGroup);
 
 	constraint_fixedparams_t fixedconstraint;
 
@@ -798,16 +774,7 @@ static cell_t CreateFixedConstraint(IPluginContext *pContext, const cell_t *para
 
 	IPhysicsConstraint *pConstraint = pPhysicsEnvironment->CreateFixedConstraint(pReferenceObject, pAttachedObject, pConstraintGroup, fixedconstraint);
 
-	if (pConstraint)
-	{
-		return g_pHandleSys->CreateHandle(g_IPhysicsConstraintType, 
-			pConstraint, 
-			pContext->GetIdentity(), 
-			myself->GetIdentity(), 
-			NULL);
-	} else {
-		return BAD_HANDLE;
-	}
+	RETURN_NEW_HANDLE(Constraint, pConstraint);
 }
 
 static cell_t CreateLengthConstraint(IPluginContext *pContext, const cell_t *params)
@@ -839,22 +806,7 @@ static cell_t CreateLengthConstraint(IPluginContext *pContext, const cell_t *par
 	}
 
 	IPhysicsConstraintGroup *pConstraintGroup = NULL;
-
-	Handle_t constraintGroupHandle = static_cast<Handle_t>(params[3]);
-	if (constraintGroupHandle != BAD_HANDLE)
-	{
-		HandleSecurity sec;
- 
-		/* Build our security descriptor */
-		sec.pOwner = NULL;	/* Not needed, owner access is not checked */
-		sec.pIdentity = myself->GetIdentity();	/* But only this extension can read */
- 
-		/* Attempt to read the given handle as our type, using our security info.
-		 * Note that we read the pointer directly in with a little cast.
-		 * This type of cast is safe since sizeof(void **) == sizeof(void *) == sizeof(T *) in almost all cases.
-		 */
-		g_pHandleSys->ReadHandle(constraintGroupHandle, g_IPhysicsConstraintGroupType, &sec, (void **)&pConstraintGroup);
-	}
+	GET_POINTER_FROM_HANDLE(ConstraintGroup, 3, pConstraintGroup);
 
 	constraint_lengthparams_t lengthconstraint;
 
@@ -882,16 +834,7 @@ static cell_t CreateLengthConstraint(IPluginContext *pContext, const cell_t *par
 
 	IPhysicsConstraint *pConstraint = pPhysicsEnvironment->CreateLengthConstraint(pReferenceObject, pAttachedObject, pConstraintGroup, lengthconstraint);
 
-	if (pConstraint)
-	{
-		return g_pHandleSys->CreateHandle(g_IPhysicsConstraintType, 
-			pConstraint, 
-			pContext->GetIdentity(), 
-			myself->GetIdentity(), 
-			NULL);
-	} else {
-		return BAD_HANDLE;
-	}
+	RETURN_NEW_HANDLE(Constraint, pConstraint);
 }
 
 static cell_t CreateHingeConstraint(IPluginContext *pContext, const cell_t *params)
@@ -923,22 +866,7 @@ static cell_t CreateHingeConstraint(IPluginContext *pContext, const cell_t *para
 	}
 
 	IPhysicsConstraintGroup *pConstraintGroup = NULL;
-
-	Handle_t constraintGroupHandle = static_cast<Handle_t>(params[3]);
-	if (constraintGroupHandle != BAD_HANDLE)
-	{
-		HandleSecurity sec;
- 
-		/* Build our security descriptor */
-		sec.pOwner = NULL;	/* Not needed, owner access is not checked */
-		sec.pIdentity = myself->GetIdentity();	/* But only this extension can read */
- 
-		/* Attempt to read the given handle as our type, using our security info.
-		 * Note that we read the pointer directly in with a little cast.
-		 * This type of cast is safe since sizeof(void **) == sizeof(void *) == sizeof(T *) in almost all cases.
-		 */
-		g_pHandleSys->ReadHandle(constraintGroupHandle, g_IPhysicsConstraintGroupType, &sec, (void **)&pConstraintGroup);
-	}
+	GET_POINTER_FROM_HANDLE(ConstraintGroup, 3, pConstraintGroup);
 
 	constraint_hingeparams_t hingeconstraint;
 
@@ -966,16 +894,7 @@ static cell_t CreateHingeConstraint(IPluginContext *pContext, const cell_t *para
 
 	IPhysicsConstraint *pConstraint = pPhysicsEnvironment->CreateHingeConstraint(pReferenceObject, pAttachedObject, pConstraintGroup, hingeconstraint);
 
-	if (pConstraint)
-	{
-		return g_pHandleSys->CreateHandle(g_IPhysicsConstraintType, 
-			pConstraint, 
-			pContext->GetIdentity(), 
-			myself->GetIdentity(), 
-			NULL);
-	} else {
-		return BAD_HANDLE;
-	}
+	RETURN_NEW_HANDLE(Constraint, pConstraint);
 }
 
 ///////////////////////////////////////////
@@ -1002,16 +921,99 @@ static cell_t CreateConstraintGroup(IPluginContext *pContext, const cell_t *para
 
 	IPhysicsConstraintGroup *pConstraintGroup = pPhysicsEnvironment->CreateConstraintGroup(constraintgroup);
 
-	if (pConstraintGroup)
+	RETURN_NEW_HANDLE(ConstraintGroup, pConstraintGroup);
+}
+
+///////////////////////////////////////////
+
+static cell_t CreateFrictionSnapshot(IPluginContext *pContext, const cell_t *params)
+{
+	if (!iphysics)
 	{
-		return g_pHandleSys->CreateHandle(g_IPhysicsConstraintGroupType, 
-			pConstraintGroup, 
-			pContext->GetIdentity(), 
-			myself->GetIdentity(), 
-			NULL);
-	} else {
-		return BAD_HANDLE;
+		return pContext->ThrowNativeError("IPhysics null.");
 	}
+
+	IPhysicsObject *pObject = GetPhysicsObject(params[1]);
+
+	if (!pObject)
+	{
+		return pContext->ThrowNativeError("IPhysicsObject for entity %d null.", params[1]);
+	}
+
+	IPhysicsFrictionSnapshot *pSnapshot = pObject->CreateFrictionSnapshot();
+
+	FrictionSnapshotHandle *fsh = new FrictionSnapshotHandle;
+	fsh->pObject = pObject;
+	fsh->pSnapshot = pSnapshot;
+
+	RETURN_NEW_HANDLE(FrictionSnapshot, fsh);
+}
+
+static cell_t IsFrictionSnapshotValid(IPluginContext *pContext, const cell_t *params)
+{
+	if (!iphysics)
+	{
+		return pContext->ThrowNativeError("IPhysics null.");
+	}
+
+	FrictionSnapshotHandle *fsh = NULL;
+	GET_POINTER_FROM_HANDLE(FrictionSnapshot, 1, fsh);
+
+	return fsh->pSnapshot->IsValid();
+}
+
+static cell_t NextFrictionData(IPluginContext *pContext, const cell_t *params)
+{
+	if (!iphysics)
+	{
+		return pContext->ThrowNativeError("IPhysics null.");
+	}
+
+	FrictionSnapshotHandle *fsh = NULL;
+	GET_POINTER_FROM_HANDLE(FrictionSnapshot, 1, fsh);
+
+	fsh->pSnapshot->NextFrictionData();
+
+	return 1;
+}
+
+static cell_t GetTouchingEntity(IPluginContext *pContext, const cell_t *params)
+{
+	if (!iphysics)
+	{
+		return pContext->ThrowNativeError("IPhysics null.");
+	}
+
+	FrictionSnapshotHandle *fsh = NULL;
+	GET_POINTER_FROM_HANDLE(FrictionSnapshot, 1, fsh);
+
+	IPhysicsObject *pOther = fsh->pSnapshot->GetObject(1);
+	CBaseEntity *pOtherEntity = static_cast<CBaseEntity *>(pOther->GetGameData());
+
+	return GetEntIndex(pOtherEntity);
+}
+
+static cell_t GetContactPoint(IPluginContext *pContext, const cell_t *params)
+{
+	if (!iphysics)
+	{
+		return pContext->ThrowNativeError("IPhysics null.");
+	}
+
+	FrictionSnapshotHandle *fsh = NULL;
+	GET_POINTER_FROM_HANDLE(FrictionSnapshot, 1, fsh);
+
+	Vector contactPoint;
+
+	fsh->pSnapshot->GetContactPoint(contactPoint);
+
+	cell_t *addr;
+	pContext->LocalToPhysAddr(params[2], &addr);
+	addr[0] = sp_ftoc(contactPoint.x);
+	addr[1] = sp_ftoc(contactPoint.y);
+	addr[2] = sp_ftoc(contactPoint.z);
+
+	return 1;
 }
 
 ///////////////////////////////////////////
@@ -1089,4 +1091,9 @@ BEGIN_NATIVES(Phys)
 	ADD_NATIVE(Phys, CreateHingeConstraint)
 	ADD_NATIVE(Phys, SetVelocity)
 	ADD_NATIVE(Phys, CreateConstraintGroup)
+	ADD_NATIVE(Phys, CreateFrictionSnapshot)
+	ADD_NATIVE(Phys, IsFrictionSnapshotValid)
+	ADD_NATIVE(Phys, NextFrictionData)
+	ADD_NATIVE(Phys, GetTouchingEntity)
+	ADD_NATIVE(Phys, GetContactPoint)
 END_NATIVES()

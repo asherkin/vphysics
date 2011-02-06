@@ -41,8 +41,9 @@
 #define END_NATIVES() {NULL, NULL} \
 	};
 
-#include "vphysics_interface.h"
-#include "vphysics/constraints.h"
+#include <vphysics_interface.h>
+#include <vphysics/constraints.h>
+#include <vphysics/friction.h>
 
 inline IPhysicsObject *GetPhysicsObject(int iEntityIndex);
 inline IPhysicsObject *GetPhysicsObject(CBaseEntity *pEntity);

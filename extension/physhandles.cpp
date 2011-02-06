@@ -1,108 +1,32 @@
 #include "physhandles.h"
 
-// IPhysicsSpring
-HandleType_t g_IPhysicsSpringType = 0;	/* Holds the HandleType ID */
+SIMPLE_HANDLER(Spring);
+SIMPLE_HANDLER(Constraint);
+SIMPLE_HANDLER(ConstraintGroup);
 
-void IPhysicsSpringTypeHandler::OnHandleDestroy(HandleType_t type, void *object)
-{
-	if (!iphysics)
-	{
-		return g_pSM->LogError(myself, "OnHandleDestroy handler for IPhysicsSpring called while IPhysics interface is null.");
-	}
+START_HANDLER(FrictionSnapshot)
+	CHECK_ENV(FrictionSnapshot);
 
-	IPhysicsEnvironment *pPhysicsEnvironment = iphysics->GetActiveEnvironmentByIndex(0);
+	IPhysicsObject *pObject = ((FrictionSnapshotHandle *)object)->pObject;
+	IPhysicsFrictionSnapshot *pSnapshot = ((FrictionSnapshotHandle *)object)->pSnapshot;
 
-	if (!pPhysicsEnvironment)
-	{
-		return g_pSM->LogError(myself, "OnHandleDestroy handler for IPhysicsSpring called while IPhysicsEnvironment pointer is null.");
-	}
+	pObject->DestroyFrictionSnapshot(pSnapshot);
 
-	pPhysicsEnvironment->DestroySpring((IPhysicsSpring *)object);
-}
-
-/* Create an instance of the handler */
-IPhysicsSpringTypeHandler g_IPhysicsSpringTypeHandler;
-
-// IPhysicsConstraint
-HandleType_t g_IPhysicsConstraintType = 0;	/* Holds the HandleType ID */
-
-void IPhysicsConstraintTypeHandler::OnHandleDestroy(HandleType_t type, void *object)
-{
-	if (!iphysics)
-	{
-		return g_pSM->LogError(myself, "OnHandleDestroy handler for IPhysicsConstraint called while IPhysics interface is null.");
-	}
-
-	IPhysicsEnvironment *pPhysicsEnvironment = iphysics->GetActiveEnvironmentByIndex(0);
-
-	if (!pPhysicsEnvironment)
-	{
-		return g_pSM->LogError(myself, "OnHandleDestroy handler for IPhysicsConstraint called while IPhysicsEnvironment pointer is null.");
-	}
-
-	pPhysicsEnvironment->DestroyConstraint((IPhysicsConstraint *)object);
-}
-
-/* Create an instance of the handler */
-IPhysicsConstraintTypeHandler g_IPhysicsConstraintTypeHandler;
-
-// IPhysicsConstraintGroup
-HandleType_t g_IPhysicsConstraintGroupType = 0;	/* Holds the HandleType ID */
-
-void IPhysicsConstraintGroupTypeHandler::OnHandleDestroy(HandleType_t type, void *object)
-{
-	if (!iphysics)
-	{
-		return g_pSM->LogError(myself, "OnHandleDestroy handler for IPhysicsConstraintGroup called while IPhysics interface is null.");
-	}
-
-	IPhysicsEnvironment *pPhysicsEnvironment = iphysics->GetActiveEnvironmentByIndex(0);
-
-	if (!pPhysicsEnvironment)
-	{
-		return g_pSM->LogError(myself, "OnHandleDestroy handler for IPhysicsConstraintGroup called while IPhysicsEnvironment pointer is null.");
-	}
-
-	pPhysicsEnvironment->DestroyConstraintGroup((IPhysicsConstraintGroup *)object);
-}
-
-/* Create an instance of the handler */
-IPhysicsConstraintGroupTypeHandler g_IPhysicsConstraintGroupTypeHandler;
+	delete object;
+END_HANDLER(FrictionSnapshot)
 
 void RegisterHandles()
 {
-	/* Register the type with default security permissions */
-	g_IPhysicsSpringType = g_pHandleSys->CreateType("PhysicsSpring", 
-		&g_IPhysicsSpringTypeHandler, 
-		0, 
-		NULL, 
-		NULL, 
-		myself->GetIdentity(), 
-		NULL);
-
-	/* Register the type with default security permissions */
-	g_IPhysicsConstraintType = g_pHandleSys->CreateType("PhysicsConstraint", 
-		&g_IPhysicsConstraintTypeHandler, 
-		0, 
-		NULL, 
-		NULL, 
-		myself->GetIdentity(), 
-		NULL);
-
-	/* Register the type with default security permissions */
-	g_IPhysicsConstraintType = g_pHandleSys->CreateType("PhysicsConstraintGroup", 
-		&g_IPhysicsConstraintGroupTypeHandler, 
-		0, 
-		NULL, 
-		NULL, 
-		myself->GetIdentity(), 
-		NULL);
+	CREATE_TYPE(Spring);
+	CREATE_TYPE(Constraint);
+	CREATE_TYPE(ConstraintGroup);
+	CREATE_TYPE(FrictionSnapshot);
 }
 
 void UnregisterHandles()
 {
-	/* Remove the type on shutdown */
-	g_pHandleSys->RemoveType(g_IPhysicsSpringType, myself->GetIdentity());
-	g_pHandleSys->RemoveType(g_IPhysicsConstraintType, myself->GetIdentity());
-	g_pHandleSys->RemoveType(g_IPhysicsConstraintGroupType, myself->GetIdentity());
+	REMOVE_TYPE(Spring);
+	REMOVE_TYPE(Constraint);
+	REMOVE_TYPE(ConstraintGroup);
+	CREATE_TYPE(FrictionSnapshot);
 }

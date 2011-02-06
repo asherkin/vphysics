@@ -151,24 +151,3 @@ bool SDKTools::SDK_OnMetamodLoad(ISmmAPI *ismm, char *error, size_t maxlen, bool
 
 	return true;
 }
-
-int GetEntIndex(CBaseEntity *pEntity)
-{
-	if(!pEntity)
-		return -1;
-	edict_t *pEdict = servergameents->BaseEntityToEdict(pEntity);
-
-	if(!pEdict)
-		return -1;
-
-	return IndexOfEdict(pEdict);
-}
-
-CBaseEntity *GetBaseEntity(int iEntIndex)
-{
-	edict_t *pEdict = PEntityOfEntIndex(iEntIndex);
-	if(!pEdict)
-		return NULL;
-
-	return servergameents->EdictToBaseEntity(pEdict);
-}

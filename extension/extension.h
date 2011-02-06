@@ -77,6 +77,7 @@ extern SDKTools g_SdkTools;
 extern CGlobalVars *gpGlobals;
 /* Interfaces from engine or gamedll */
 extern IPhysics *iphysics;
+extern IServerGameEnts *servergameents;
 
 #if SOURCE_ENGINE >= SE_LEFT4DEAD
 inline int IndexOfEdict(const edict_t *pEdict)
@@ -102,7 +103,26 @@ inline edict_t *PEntityOfEntIndex(int iEntIndex)
 }
 #endif //SOURCE_ENGINE >= SE_LEFT4DEAD
 
-int GetEntIndex(CBaseEntity *pEntity);
-CBaseEntity *GetBaseEntity(int iEntIndex);
+inline int GetEntIndex(CBaseEntity *pEntity)
+{
+	if(!pEntity)
+		return -1;
+
+	edict_t *pEdict = servergameents->BaseEntityToEdict(pEntity);
+
+	if(!pEdict)
+		return -1;
+
+	return IndexOfEdict(pEdict);
+}
+
+inline CBaseEntity *GetBaseEntity(int iEntIndex)
+{
+	edict_t *pEdict = PEntityOfEntIndex(iEntIndex);
+	if(!pEdict || pEdict->IsFree())
+		return NULL;
+
+	return servergameents->EdictToBaseEntity(pEdict);
+}
 
 #endif //_INCLUDE_SOURCEMOD_EXTENSION_PROPER_H_

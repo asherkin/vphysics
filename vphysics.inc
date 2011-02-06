@@ -46,6 +46,12 @@ native Handle:Phys_CreateFixedConstraint(referenceObject, attachedObject, Handle
 native Handle:Phys_CreateLengthConstraint(referenceObject, attachedObject, Handle:constraintGroup, const Float:refPosition[3], const Float:attachedPosition[3], Float:totalLength, Float:minLength = 0.0, Float:strength = 1.0, Float:forceLimit = 0.0, Float:torqueLimit = 0.0, Float:bodyMassScaleRef = 1.0, Float:bodyMassScaleAttached = 1.0, bool:isActive = true);
 native Handle:Phys_CreateHingeConstraint(referenceObject, attachedObject, Handle:constraintGroup, const Float:worldPosition[3], const Float:worldAxisDirection[3], Float:minRotation = 0.0, Float:maxRotation = 0.0, Float:angularVelocity = 0.0, Float:torque = 0.0, Float:strength = 1.0, Float:forceLimit = 0.0, Float:torqueLimit = 0.0, Float:bodyMassScaleRef = 1.0, Float:bodyMassScaleAttached = 1.0, bool:isActive = true);
 
+native Handle:Phys_CreateFrictionSnapshot(entity);
+native bool:Phys_IsFrictionSnapshotValid(Handle:snapshot);
+native bool:Phys_NextFrictionData(Handle:snapshot);
+native Phys_GetTouchingEntity(Handle:snapshot);
+native Phys_GetContactPoint(Handle:snapshot, Float:contactPoint[3]);
+
 forward Phys_OnObjectWake(entity);
 forward Phys_OnObjectSleep(entity);
 
@@ -68,6 +74,28 @@ stock Phys_AddVelocityOffset(entity, const Float:forceVector[3], const Float:wor
 	Phys_CalculateVelocityOffset(entity, forceVector, worldPosition, centerVelocity, centerAngularVelocity);
 
 	Phys_AddVelocity(entity, centerVelocity, centerAngularVelocity);
+}
+
+stock bool:Phys_IsTouchingEntity(entity, other)
+{
+	new Handle:snapshot = Phys_CreateFrictionSnapshot(entity);
+
+	new bool:touching = false;
+
+	while (Phys_IsFrictionSnapshotValid(snapshot))
+	{
+		if (Phys_GetTouchingEntity(snapshot) == other)
+		{
+			touching = true;
+			break;
+		}
+
+		Phys_NextFrictionData(snapshot);
+	}
+
+	CloseHandle(snapshot);
+
+	return touching;
 }
 
 /**
