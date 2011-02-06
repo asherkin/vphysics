@@ -12,7 +12,7 @@ START_HANDLER(FrictionSnapshot)
 
 	pObject->DestroyFrictionSnapshot(pSnapshot);
 
-	delete object;
+	delete (FrictionSnapshotHandle *)object;
 END_HANDLER(FrictionSnapshot)
 
 void RegisterHandles()
