@@ -53,7 +53,6 @@ native Phys_GetTouchingEntity(Handle:snapshot);
 native Phys_GetContactPoint(Handle:snapshot, Float:contactPoint[3]);
 
 native Phys_GetIndexOfMaterial(const String:material[]);
-native Phys_GetMaterialName(materialIndex, String:material[], maxlen);
 
 forward Phys_OnObjectWake(entity);
 forward Phys_OnObjectSleep(entity);

@@ -1031,19 +1031,6 @@ static cell_t GetIndexOfMaterial(IPluginContext *pContext, const cell_t *params)
 	return surfaceprops->GetSurfaceIndex(materialName);
 }
 
-static cell_t GetMaterialName(IPluginContext *pContext, const cell_t *params)
-{
-	if (!surfaceprops)
-	{
-		return pContext->ThrowNativeError("IPhysicsSurfaceProps null.");
-	}
-
-	char *materialName = new char[params[3]];
-	int numbytes = g_pSM->Format(materialName, params[3], "%s", surfaceprops->GetString(params[1]));
-	pContext->StringToLocal(params[2], numbytes, materialName);
-	return numbytes;
-}
-
 ///////////////////////////////////////////
 
 IPhysicsObject *GetPhysicsObject(int iEntityIndex)
@@ -1125,5 +1112,4 @@ BEGIN_NATIVES(Phys)
 	ADD_NATIVE(Phys, GetTouchingEntity)
 	ADD_NATIVE(Phys, GetContactPoint)
 	ADD_NATIVE(Phys, GetIndexOfMaterial)
-	ADD_NATIVE(Phys, GetMaterialName)
 END_NATIVES()
