@@ -74,9 +74,9 @@ static cell_t IsHinged(IPluginContext *pContext, const cell_t *params)
 	return m_pPhysicsObject->IsHinged();
 }
 
+#if SOURCE_ENGINE > SE_DARKMESSIAH
 static cell_t IsCollisionEnabled(IPluginContext *pContext, const cell_t *params)
 {
-#if SOURCE_ENGINE > SE_DARKMESSIAH
 	IPhysicsObject *m_pPhysicsObject = GetPhysicsObject(params[1]);
 
 	if (!m_pPhysicsObject)
@@ -85,14 +85,10 @@ static cell_t IsCollisionEnabled(IPluginContext *pContext, const cell_t *params)
 	}
 
 	return m_pPhysicsObject->IsCollisionEnabled();
-#else
-	return pContext->ThrowNativeError("%s not supported by this engine.", "IsCollisionEnabled");
-#endif
 }
 
 static cell_t IsGravityEnabled(IPluginContext *pContext, const cell_t *params)
 {
-#if SOURCE_ENGINE > SE_DARKMESSIAH
 		IPhysicsObject *m_pPhysicsObject = GetPhysicsObject(params[1]);
 	
 		if (!m_pPhysicsObject)
@@ -101,14 +97,10 @@ static cell_t IsGravityEnabled(IPluginContext *pContext, const cell_t *params)
 		}
 	
 		return m_pPhysicsObject->IsGravityEnabled();
-#else
-	return pContext->ThrowNativeError("%s not supported by this engine.", "IsGravityEnabled");
-#endif
 }
 
 static cell_t IsDragEnabled(IPluginContext *pContext, const cell_t *params)
 {
-#if SOURCE_ENGINE > SE_DARKMESSIAH
 		IPhysicsObject *m_pPhysicsObject = GetPhysicsObject(params[1]);
 	
 		if (!m_pPhysicsObject)
@@ -117,14 +109,10 @@ static cell_t IsDragEnabled(IPluginContext *pContext, const cell_t *params)
 		}
 	
 		return m_pPhysicsObject->IsDragEnabled();
-#else
-	return pContext->ThrowNativeError("%s not supported by this engine.", "IsDragEnabled");
-#endif
 }
 
 static cell_t IsMotionEnabled(IPluginContext *pContext, const cell_t *params)
 {
-#if SOURCE_ENGINE > SE_DARKMESSIAH
 		IPhysicsObject *m_pPhysicsObject = GetPhysicsObject(params[1]);
 	
 		if (!m_pPhysicsObject)
@@ -133,10 +121,8 @@ static cell_t IsMotionEnabled(IPluginContext *pContext, const cell_t *params)
 		}
 	
 		return m_pPhysicsObject->IsMotionEnabled();
-#else
-	return pContext->ThrowNativeError("%s not supported by this engine.", "IsMotionEnabled");
-#endif
 }
+#endif
 
 ///////////////////////////////////////////////////////
 
@@ -1072,10 +1058,14 @@ BEGIN_NATIVES(Phys)
 	ADD_NATIVE(Phys, IsStatic)
 	ADD_NATIVE(Phys, IsAsleep)
 	ADD_NATIVE(Phys, IsHinged)
+
+#if SOURCE_ENGINE > SE_DARKMESSIAH
 	ADD_NATIVE(Phys, IsCollisionEnabled)
 	ADD_NATIVE(Phys, IsGravityEnabled)
 	ADD_NATIVE(Phys, IsDragEnabled)
 	ADD_NATIVE(Phys, IsMotionEnabled)
+#endif
+
 	ADD_NATIVE(Phys, EnableCollisions)
 	ADD_NATIVE(Phys, EnableGravity)
 	ADD_NATIVE(Phys, EnableDrag)
