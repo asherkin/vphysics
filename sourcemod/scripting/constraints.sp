@@ -29,7 +29,7 @@ public Action:Command_Weld(client, args)
 		new entity = GetClientAimTarget(client, false);
 		if (IsValidEntity(entity) && Phys_IsPhysicsObject(entity))
 		{
-			Phys_CreateFixedConstraint(tempEntIndex, entity);
+			Phys_CreateFixedConstraint(tempEntIndex, entity, INVALID_HANDLE);
 			ReplyToCommand(client, "[VPhys] Welded entities %d and %d, reset reference entity.", tempEntIndex, entity);
 		} else {
 			ReplyToCommand(client, "[VPhys] Target entity invalid, reset reference entity.");
@@ -59,6 +59,7 @@ public Action:Command_Rope(client, args)
 		{
 			new Float:tempEntHitPosWorld[3];
 			TR_GetEndPosition(tempEntHitPosWorld, trace);
+			
 			tempEntIndex = TR_GetEntityIndex(trace);
 			Phys_WorldToLocal(tempEntIndex, tempEntHitPos, tempEntHitPosWorld);
 			
@@ -74,12 +75,15 @@ public Action:Command_Rope(client, args)
 			new Float:hitPosWorld[3];
 			TR_GetEndPosition(hitPosWorld, trace);
 			new Float:hitPos[3];
-			Phys_WorldToLocal(tempEntIndex, hitPos, hitPosWorld);
+			Phys_WorldToLocal(entIndex, hitPos, hitPosWorld);
+			
+			new Float:tempEntHitPosWorld[3];
+			Phys_LocalToWorld(tempEntIndex, tempEntHitPosWorld, tempEntHitPos);
 			
 			new Float:distVec[3];
-			MakeVectorFromPoints(tempEntHitPos, hitPos, distVec);
+			MakeVectorFromPoints(tempEntHitPosWorld, hitPosWorld, distVec);
 			
-			Phys_CreateLengthConstraint(tempEntIndex, entIndex, tempEntHitPos, hitPos, GetVectorLength(distVec));
+			Phys_CreateLengthConstraint(tempEntIndex, entIndex, INVALID_HANDLE, tempEntHitPos, hitPos, GetVectorLength(distVec));
 			ReplyToCommand(client, "[VPhys] Roped entities %d and %d, reset reference entity.", tempEntIndex, entIndex);
 		} else {
 			ReplyToCommand(client, "[VPhys] Target entity invalid, reset reference entity.");
@@ -137,7 +141,7 @@ public Action:Command_Wheel(client, args)
 		
 		TeleportEntity(wheelIndex, wheelCenter, surfaceAng, NULL_VECTOR);
 		
-		Phys_CreateHingeConstraint(entIndex, wheelIndex, hitPos, hitNormal);
+		Phys_CreateHingeConstraint(entIndex, wheelIndex, INVALID_HANDLE, hitPos, hitNormal);
 		ReplyToCommand(client, "[VPhys] Added wheel (index %d) to entity %d", wheelIndex, entIndex);
 	} else {
 		ReplyToCommand(client, "[VPhys] Target entity invalid.");
@@ -203,7 +207,7 @@ public Action:Command_Thruster(client, args)
 		
 		TeleportEntity(thrusterIndex, hitPos, surfaceAng, NULL_VECTOR);
 		
-		Phys_CreateFixedConstraint(entIndex, thrusterIndex);
+		Phys_CreateFixedConstraint(entIndex, thrusterIndex, INVALID_HANDLE);
 		ReplyToCommand(client, "[VPhys] Added thruster (index %d) to entity %d", thrusterIndex, entIndex);
 	} else {
 		ReplyToCommand(client, "[VPhys] Target entity invalid.");
