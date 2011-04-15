@@ -7,3 +7,4 @@ frying pan to the head!
 looks like someone forgot the FTP server!
 why o' why did the version need to be changed, without atleast going to 0.8.x.
 Silly PTR records.
+Woo, we are on 0.8.x.
