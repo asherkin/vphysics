@@ -54,8 +54,8 @@ if ($^O eq "linux") {
 	$ENV{'MMSOURCE18'} = '/Users/builds/builds/common/mmsource-1.8';
 	
 	$ENV{'HL2SDKOBVALVE'} = '/Users/builds/builds/common/hl2sdk-ob-valve';
-	$ENV{'HL2SDKL4D'} = 'C:/Scripts/common/hl2sdk-l4d';
-	$ENV{'HL2SDKL4D2'} = 'C:/Scripts/common/hl2sdk-l4d2';
+	$ENV{'HL2SDKL4D'} = '/Users/builds/builds/common/hl2sdk-l4d';
+	$ENV{'HL2SDKL4D2'} = '/Users/builds/builds/common/hl2sdk-l4d2';
 } else {
 	my @sdks = ('sourcemod-1.4', 'mmsource-1.8');
 	my ($sdk);
