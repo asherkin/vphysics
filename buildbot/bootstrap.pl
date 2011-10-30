@@ -25,7 +25,7 @@ print "Attempting to reconfigure...\n";
 
 #update and configure shiz
 if ($^O eq "linux") {
-	my @sdks = ('sourcemod-1.4', 'mmsource-1.8', 'hl2sdk', 'hl2sdk-ob', 'hl2sdk-ob-valve', 'hl2sdk-l4d', 'hl2sdk-l4d2');
+	my @sdks = ('sourcemod-1.4', 'mmsource-1.8');
 	my ($sdk);
 	foreach $sdk (@sdks) {
 		print "Updating checkout of ", $sdk, " on ", $^O, "\n";
@@ -42,7 +42,7 @@ if ($^O eq "linux") {
 	$ENV{'HL2SDKL4D'} = '/home/builds/common/hl2sdk-l4d';
 	$ENV{'HL2SDKL4D2'} = '/home/builds/common/hl2sdk-l4d2';
 } elsif ($^O eq "darwin") {
-	my @sdks = ('sourcemod-1.4', 'mmsource-1.8', 'hl2sdk-ob-valve', 'hl2sdk-l4d', 'hl2sdk-l4d2');
+	my @sdks = ('sourcemod-1.4', 'mmsource-1.8');
 	my ($sdk);
 	foreach $sdk (@sdks) {
 		print "Updating checkout of ", $sdk, " on ", $^O, "\n";
@@ -57,7 +57,7 @@ if ($^O eq "linux") {
 	$ENV{'HL2SDKL4D'} = 'C:/Scripts/common/hl2sdk-l4d';
 	$ENV{'HL2SDKL4D2'} = 'C:/Scripts/common/hl2sdk-l4d2';
 } else {
-	my @sdks = ('sourcemod-1.4', 'mmsource-1.8', 'hl2sdk', 'hl2sdk-darkm', 'hl2sdk-ob', 'hl2sdk-ob-valve', 'hl2sdk-l4d', 'hl2sdk-l4d2', 'hl2sdk-swarm', 'hl2sdk-bgt', 'hl2sdk-eye');
+	my @sdks = ('sourcemod-1.4', 'mmsource-1.8');
 	my ($sdk);
 	foreach $sdk (@sdks) {
 		print "Updating checkout of ", $sdk, " on ", $^O, "\n";
