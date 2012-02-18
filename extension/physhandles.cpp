@@ -28,5 +28,5 @@ void UnregisterHandles()
 	REMOVE_TYPE(Spring);
 	REMOVE_TYPE(Constraint);
 	REMOVE_TYPE(ConstraintGroup);
-	CREATE_TYPE(FrictionSnapshot);
+	REMOVE_TYPE(FrictionSnapshot);
 }
