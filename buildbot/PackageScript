@@ -1,119 +1,33 @@
-# vim: set ts=2 sw=2 tw=99 noet ft=python: 
+# vim: set sts=2 ts=8 sw=2 tw=99 et ft=python:
 import os
-import shutil
-import ambuild.osutil as osutil
-from ambuild.command import Command
 
-job = AMBuild.AddJob('package')
+builder.SetBuildFolder('package')
 
-class DestroyPath(Command):
-	def __init__(self, folder):
-		Command.__init__(self)
-		self.folder = folder
+folder_list = [
+  'addons/sourcemod/extensions',
+  'addons/sourcemod/scripting',
+  'addons/sourcemod/scripting/include',
+]
 
-	def destroy(self, path):
-		entries = os.listdir(path)
-		for entry in entries:
-			newpath = os.path.join(path, entry)
-			if os.path.isdir(newpath):
-				self.destroy(newpath)
-				os.rmdir(newpath)
-			elif os.path.isfile(newpath):
-				os.remove(newpath)
+folder_map = {}
+for folder in folder_list:
+  norm_folder = os.path.normpath(folder)
+  folder_map[folder] = builder.AddFolder(norm_folder)
 
-	def run(self, runner, job):
-		runner.PrintOut('rm -rf {0}/*'.format(self.folder))
-		self.destroy(self.folder)
+def CopyFiles(src, dest, files):
+  dest_entry = folder_map[dest]
+  for source_file in files:
+    source_path = os.path.join(builder.sourcePath, src, source_file) if src else os.path.join(builder.sourcePath, source_file)
+    builder.AddCopy(source_path, dest_entry)
 
-class CreateFolders(Command):
-	def __init__(self, folders):
-		Command.__init__(self)
-		self.folders = folders
-	
-	def run(self, runner, job):
-		for folder in self.folders:
-			path = os.path.join(*folder)
-			runner.PrintOut('mkdir {0}'.format(path))
-			os.makedirs(path)
+CopyFiles('', 'addons/sourcemod/scripting/include', [
+  'vphysics.inc',
+])
 
-#Shallow folder copy
-class CopyFolder(Command):
-	def __init__(self, fromList, toList, excludes = []):
-		Command.__init__(self)
-		self.fromPath = os.path.join(AMBuild.sourceFolder, *fromList)
-		self.toPath = os.path.join(*toList) 
-		self.excludes = excludes
-	
-	def run(self, runner, job):
-		entries = os.listdir(self.fromPath)
-		for entry in entries:
-			if entry in self.excludes:
-				continue
-			path = os.path.join(self.fromPath, entry)
-			if not os.path.isfile(path):
-				continue
-			runner.PrintOut('copy {0} to {1}'.format(path, self.toPath))
-			shutil.copy(path, self.toPath)
+CopyFiles('', 'addons/sourcemod/scripting', [
+  'vphysics.sp',
+  'constraints.sp',
+])
 
-#Single file copy
-class CopyFile(Command):
-	def __init__(self, fromFile, toPath):
-		Command.__init__(self)
-		self.fromFile = fromFile
-		self.toPath = toPath
-
-	def run(self, runner, job):
-		runner.PrintOut('copy {0} to {1}'.format(self.fromFile, self.toPath))
-		shutil.copy(self.fromFile, self.toPath)
-
-
-folders = [
-		['addons', 'sourcemod', 'extensions'], 
-		['addons', 'sourcemod', 'scripting', 'include']
-	]
-
-
-#Setup
-job.AddCommand(DestroyPath(os.path.join(AMBuild.outputFolder, 'package')))
-job.AddCommand(CreateFolders(folders))
-
-#Copy Files
-job.AddCommand(CopyFile(os.path.join(AMBuild.sourceFolder, 'vphysics.inc'),
-                        os.path.join('addons', 'sourcemod', 'scripting', 'include')))
-job.AddCommand(CopyFile(os.path.join(AMBuild.sourceFolder, 'vphysics.sp'),
-                        os.path.join('addons', 'sourcemod', 'scripting')))
-job.AddCommand(CopyFile(os.path.join(AMBuild.sourceFolder, 'constraints.sp'),
-                        os.path.join('addons', 'sourcemod', 'scripting')))
-
-bincopies = []
-
-def AddNormalLibrary(name, dest):
-	dest = os.path.join('addons', 'sourcemod', dest)
-	bincopies.append(CopyFile(os.path.join('..', name, name + osutil.SharedLibSuffix()), dest))
-	
-	# Each platform's version of dump_syms needs the path in a different format.
-	if AMBuild.target['platform'] == 'linux':
-		debug_info.append(name + '/' + name + '.so')
-	elif AMBuild.target['platform'] == 'darwin':
-		debug_info.append(name + '/' + name + '.dylib.dSYM')
-	elif AMBuild.target['platform'] == 'windows':
-		debug_info.append(name + '\\' + name + '.pdb')
-
-def AddHL2Library(name, dest):
-	for i in SM.sdkInfo:
-		sdk = SM.sdkInfo[i]
-		if AMBuild.target['platform'] not in sdk['platform']:
-			continue
-		AddNormalLibrary(name + '.ext.' + sdk['ext'], dest)
-
-debug_info = []
-
-AddHL2Library('vphysics', 'extensions')
-
-job.AddCommandGroup(bincopies)
-	
-pdblog = open(os.path.join(AMBuild.outputFolder, 'pdblog.txt'), 'wt')
-for pdb in debug_info:
-	pdblog.write(pdb + '\n')
-pdblog.close()
-
+for cxx_task in Extension.extensions:
+  builder.AddCopy(cxx_task.binary, folder_map['addons/sourcemod/extensions'])
