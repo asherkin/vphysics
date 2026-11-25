@@ -1,0 +1,10 @@
+build/
+build-*/
+extension/version_auto.h
+*.o
+*.d
+*.so
+*.dll
+*.dylib
+*.dbg
+*.pdb
